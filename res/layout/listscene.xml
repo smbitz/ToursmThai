@@ -19,7 +19,7 @@
             android:id="@+id/listAddFavoriteButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_launcher" />
+            android:src="@drawable/ic_launcher" android:visibility="gone"/>
 
 
         <LinearLayout
@@ -41,54 +41,75 @@
             android:src="@drawable/ic_launcher" />
 
     </LinearLayout>
-    
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Top List Scene"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <LinearLayout
-        android:id="@+id/linearLayout4"
+        android:id="@+id/linearLayout7"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical" android:layout_weight="1">
+        android:orientation="vertical" >
 
-        <ListView
-            android:id="@+id/listTopListView"
-            android:layout_width="match_parent"
+        <ImageView
+            android:id="@+id/imageView1"
             android:layout_height="wrap_content"
-            android:layout_weight="1" >
-        </ListView>
+            android:src="@drawable/ic_launcher" android:layout_width="wrap_content"/>
 
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="More List Scene"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-
+
     <LinearLayout
-        android:id="@+id/linearLayout5"
+        android:id="@+id/linearLayout6"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical" android:layout_weight="1">
 
-        <ListView
-            android:id="@+id/listMoreView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
-        </ListView>
+        <TextView
+            android:id="@+id/listTextHead1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="List View 1"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
 
+        <LinearLayout
+            android:id="@+id/linearLayout4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical" >
+
+            <ListView
+                android:id="@+id/listTopListView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" >
+            </ListView>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/listTextHead2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="List View 2"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <LinearLayout
+            android:id="@+id/linearLayout5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical" >
+
+            <ListView
+                android:id="@+id/listMoreView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" >
+            </ListView>
+        </LinearLayout>
     </LinearLayout>
 	
     <LinearLayout
         android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content">
 
         <HorizontalScrollView
             android:id="@+id/horizontalScrollView1"

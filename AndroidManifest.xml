@@ -18,7 +18,6 @@
         </activity>
         <activity android:name=".scene.WelcomeScene2" android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" android:screenOrientation="portrait" android:noHistory="true"></activity>
         <activity android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" android:name=".scene.CategoryScene" android:screenOrientation="portrait"></activity>
-        <activity android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" android:name=".scene.FavoriteSceneOld" android:screenOrientation="portrait"></activity>
         <activity android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" android:name=".scene.SubCategoryScene" android:screenOrientation="portrait"></activity>
         <activity android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" android:name=".scene.ListScene" android:screenOrientation="portrait"></activity>
         <activity android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" android:name=".scene.PlaceGroupScene" android:screenOrientation="portrait"></activity>

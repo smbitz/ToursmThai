@@ -19,6 +19,7 @@ import com.codegears.toursmthai.util.NetworkUtil;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -38,11 +39,14 @@ public class DetailScene extends Activity implements OnClickListener, NetworkThr
 	public static final String PUT_EXTRA_PLACE_ID = "PUT_EXTRA_PLACE_ID";
 	private static final String URL_GET_PLACE_BY_ID = "URL_GET_PLACE_BY_ID";
 	private static final String URL_GET_DETAIL = "URL_GET_DETAIL";
+	public static final String APP_FAVOURITE = "APP_FAVOURITE";
+	public static final String FAVOURITE_PLACE = "FAVOURITE_PLACE";
 	
 	private MyApp app;
 	private String placeId;
 	private ImageButton backButton;
 	private ImageButton homeButton;
+	private ImageButton addFavouriteButton;
 	private ImageButton hotDealButton;
 	private ImageButton mapButton;
 	private ImageButton facebookButton;
@@ -90,6 +94,7 @@ public class DetailScene extends Activity implements OnClickListener, NetworkThr
 		seaBreezeButton = (ImageButton) findViewById( R.id.detailSeaBreezeMenuButton );
 		familyButton = (ImageButton) findViewById( R.id.detailFamilyMenuButton );
 		favouriteButton = (ImageButton) findViewById( R.id.detailFavouriteMenuButton );
+		addFavouriteButton = (ImageButton) findViewById( R.id.detailAddFavoriteButton );
 		
 		backButton.setOnClickListener( this );
 		homeButton.setOnClickListener( this );
@@ -106,6 +111,7 @@ public class DetailScene extends Activity implements OnClickListener, NetworkThr
 		seaBreezeButton.setOnClickListener( this );
 		familyButton.setOnClickListener( this );
 		favouriteButton.setOnClickListener( this );
+		addFavouriteButton.setOnClickListener( this );
 		
 		placeName = (TextView) findViewById( R.id.detailPlaceName );
 		placeURL = (TextView) findViewById( R.id.detailPlaceURL );
@@ -129,6 +135,24 @@ public class DetailScene extends Activity implements OnClickListener, NetworkThr
 		}else if( v.equals( homeButton ) ){
 			Intent newIntent = new Intent( this, CategoryScene.class );
 			startActivity( newIntent );
+		}else if( v.equals( addFavouriteButton ) ){
+			Boolean isNotInFav = true;
+			SharedPreferences sharedPreferences = getSharedPreferences( APP_FAVOURITE, 0);
+			String getFavourite = sharedPreferences.getString( FAVOURITE_PLACE, "");
+			
+			for( String checkValue:getFavourite.split(",") ){
+				if( checkValue.equals( placeId ) ){
+					isNotInFav = false;
+				}
+			}
+			
+			if( isNotInFav ){
+				getFavourite = getFavourite+","+placeId;
+			}
+			
+			SharedPreferences.Editor editor = sharedPreferences.edit();
+		    editor.putString(  FAVOURITE_PLACE, getFavourite );
+		    editor.commit();
 		}else if( v.equals( hotDealButton ) ){
 			
 		}else if( v.equals( mapButton ) ){
@@ -189,7 +213,7 @@ public class DetailScene extends Activity implements OnClickListener, NetworkThr
 			}
 		});
 		
-		String[] imageURLSplit = placeData.getSubPicture().split(",");
+		String[] imageURLSplit = placeData.getSubPictureURL().split(",");
 		
 		for( String fetchURL:imageURLSplit ){
 			try {

@@ -6,8 +6,9 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
-public class WelcomeSceneLoadData extends Activity implements LoadListener {
+public class WelcomeSceneLoadData extends Activity implements LoadListener, Runnable {
 	
+	private Thread nextPage;
 	private MyApp app;
 	
 	@Override
@@ -15,14 +16,27 @@ public class WelcomeSceneLoadData extends Activity implements LoadListener {
 		super.onCreate(savedInstanceState);
 		setContentView( R.layout.welcomescene1 );
 		
-		app = (MyApp)this.getApplication();
+		nextPage = new Thread(this);
+		nextPage.start();
+		
+		app = (MyApp) this.getApplication();
 		app.setLoadListener( this );
-		app.load();
 	}
 
 	@Override
 	public void onLoadComplete(Object obj) {
 		Intent newIntent = new Intent( this, WelcomeScene2.class );
 		startActivity( newIntent );
+	}
+
+	@Override
+	public void run() {
+		try {
+			nextPage.sleep(3000);
+		} catch (InterruptedException e) {
+		
+		}
+		
+		app.load();
 	}
 }

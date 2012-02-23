@@ -53,7 +53,23 @@ public class PlaceData {
 		return this.link;
 	}
 	
-	public String getSubPicture(){
+	public String getSubPictureURL(){
 		return this.sub_picture;
+	}
+	
+	public String getMainPictureURL(){
+		return this.main_picture;
+	}
+	
+	public String getDescription(){
+		return this.description;
+	}
+	
+	public String getId(){
+		return this.id;
+	}
+	
+	public String getType(){
+		return this.type;
 	}
 }

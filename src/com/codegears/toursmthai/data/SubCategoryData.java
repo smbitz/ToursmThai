@@ -30,7 +30,11 @@ public class SubCategoryData {
 	}
 	
 	public String getId(){
-		return id;
+		return this.id;
+	}
+	
+	public String getTitle(){
+		return this.title;
 	}
 	
 	public ArrayList<CategoryPlaceGroup> getCategoryPlaceGroup(){

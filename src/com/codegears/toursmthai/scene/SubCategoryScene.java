@@ -2,17 +2,23 @@ package com.codegears.toursmthai.scene;
 
 import java.util.ArrayList;
 
+import com.codegears.toursmthai.MyApp;
 import com.codegears.toursmthai.R;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 public class SubCategoryScene extends Activity implements OnClickListener {
+	
+	public static final String APP_FAVOURITE = "APP_FAVOURITE";
+	public static final String FAVOURITE_CATEGORY = "FAVOURITE_CATEGORY";
 	
 	public static final String CATEGORY_MENU_1 = "1";
 	public static final String CATEGORY_MENU_2 = "2";
@@ -70,12 +76,14 @@ public class SubCategoryScene extends Activity implements OnClickListener {
 	private ImageButton backButton;
 	private ImageButton view360Button;
 	private ImageButton homeButton;
+	private ImageButton addFavouriteButton;
+	private MyApp app;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		putExtraBundle = new Bundle();
+		app = (MyApp) getApplication();
 		categoryId = getIntent().getExtras().get( PUT_EXTRA_CATEGORY_ID ).toString();
 		
 		if( categoryId.equals( CATEGORY_MENU_1 ) ){
@@ -90,6 +98,7 @@ public class SubCategoryScene extends Activity implements OnClickListener {
 			backButton = (ImageButton) findViewById( R.id.subCategoryChicBackButton );
 			view360Button = (ImageButton) findViewById( R.id.subCategoryChic360ViewButton );
 			homeButton = (ImageButton) findViewById( R.id.subCategoryChicHomeButton );
+			addFavouriteButton = (ImageButton) findViewById( R.id.subCategoryChicAddFavouriteButton );
 			
 			subCategoryButton1.setOnClickListener( this );
 			subCategoryButton2.setOnClickListener( this );
@@ -107,6 +116,7 @@ public class SubCategoryScene extends Activity implements OnClickListener {
 			backButton = (ImageButton) findViewById( R.id.subCategoryThainessBackButton );
 			view360Button = (ImageButton) findViewById( R.id.subCategoryThainess360ViewButton );
 			homeButton = (ImageButton) findViewById( R.id.subCategoryThainessHomeButton );
+			addFavouriteButton = (ImageButton) findViewById( R.id.subCategoryThainessAddFavouriteButton );
 			
 			subCategoryButton1.setOnClickListener( this );
 			subCategoryButton2.setOnClickListener( this );
@@ -122,6 +132,7 @@ public class SubCategoryScene extends Activity implements OnClickListener {
 			backButton = (ImageButton) findViewById( R.id.subCategoryWellnessBackButton );
 			view360Button = (ImageButton) findViewById( R.id.subCategoryWellness360ViewButton );
 			homeButton = (ImageButton) findViewById( R.id.subCategoryWellnessHomeButton );
+			addFavouriteButton = (ImageButton) findViewById( R.id.subCategoryWellnessAddFavouriteButton );
 			
 			subCategoryButton1.setOnClickListener( this );
 			subCategoryButton2.setOnClickListener( this );
@@ -137,6 +148,7 @@ public class SubCategoryScene extends Activity implements OnClickListener {
 			backButton = (ImageButton) findViewById( R.id.subCategoryRomanticBackButton );
 			view360Button = (ImageButton) findViewById( R.id.subCategoryRomantic360ViewButton );
 			homeButton = (ImageButton) findViewById( R.id.subCategoryRomanticHomeButton );
+			addFavouriteButton = (ImageButton) findViewById( R.id.subCategoryRomanticAddFavouriteButton );
 			
 			subCategoryButton1.setOnClickListener( this );
 			subCategoryButton2.setOnClickListener( this );
@@ -153,6 +165,7 @@ public class SubCategoryScene extends Activity implements OnClickListener {
 			backButton = (ImageButton) findViewById( R.id.subCategoryAdventureBackButton );
 			view360Button = (ImageButton) findViewById( R.id.subCategoryAdventure360ViewButton );
 			homeButton = (ImageButton) findViewById( R.id.subCategoryAdventureHomeButton );
+			addFavouriteButton = (ImageButton) findViewById( R.id.subCategoryAdventureAddFavouriteButton );
 			
 			subCategoryButton1.setOnClickListener( this );
 			subCategoryButton2.setOnClickListener( this );
@@ -169,6 +182,7 @@ public class SubCategoryScene extends Activity implements OnClickListener {
 			backButton = (ImageButton) findViewById( R.id.subCategorySlowBackButton );
 			view360Button = (ImageButton) findViewById( R.id.subCategorySlow360ViewButton );
 			homeButton = (ImageButton) findViewById( R.id.subCategorySlowHomeButton );
+			addFavouriteButton = (ImageButton) findViewById( R.id.subCategorySlowAddFavouriteButton );
 			
 			subCategoryButton1.setOnClickListener( this );
 			subCategoryButton2.setOnClickListener( this );
@@ -185,6 +199,7 @@ public class SubCategoryScene extends Activity implements OnClickListener {
 			backButton = (ImageButton) findViewById( R.id.subCategorySeaBreezeBackButton );
 			view360Button = (ImageButton) findViewById( R.id.subCategorySeaBreeze360ViewButton );
 			homeButton = (ImageButton) findViewById( R.id.subCategorySeaBreezeHomeButton );
+			addFavouriteButton = (ImageButton) findViewById( R.id.subCategorySeaBreezeAddFavouriteButton );
 			
 			subCategoryButton1.setOnClickListener( this );
 			subCategoryButton2.setOnClickListener( this );
@@ -201,19 +216,15 @@ public class SubCategoryScene extends Activity implements OnClickListener {
 			backButton = (ImageButton) findViewById( R.id.subCategoryFamilyBackButton );
 			view360Button = (ImageButton) findViewById( R.id.subCategoryFamily360ViewButton );
 			homeButton = (ImageButton) findViewById( R.id.subCategoryFamilyHomeButton );
+			addFavouriteButton = (ImageButton) findViewById( R.id.subCategoryFamilyAddFavouriteButton );
 			
 			subCategoryButton1.setOnClickListener( this );
 			subCategoryButton2.setOnClickListener( this );
 			subCategoryButton3.setOnClickListener( this );
 			subCategoryButton4.setOnClickListener( this );
-		}else if( categoryId.equals( CATEGORY_MENU_9 ) ){
-			setContentView( R.layout.subcategoryfavouritescene );
-			
-			backButton = (ImageButton) findViewById( R.id.subCategoryFavouriteBackButton );
-			view360Button = (ImageButton) findViewById( R.id.subCategoryFavourite360ViewButton );
-			homeButton = (ImageButton) findViewById( R.id.subCategoryFavouriteHomeButton );
 		}
 		
+		addFavouriteButton.setOnClickListener( this );
 		backButton.setOnClickListener( this );
 		view360Button.setOnClickListener( this );
 		homeButton.setOnClickListener( this );
@@ -228,9 +239,26 @@ public class SubCategoryScene extends Activity implements OnClickListener {
 		}else if( v.equals( homeButton ) ){
 			Intent newIntent = new Intent( this, CategoryScene.class );
 			startActivity( newIntent );
+		}else if( v.equals( addFavouriteButton ) ){
+			Boolean isNotInFav = true;
+			SharedPreferences sharedPreferences = getSharedPreferences( APP_FAVOURITE, 0);
+			String getFavourite = sharedPreferences.getString( FAVOURITE_CATEGORY, "");
+			
+			for( String checkValue:getFavourite.split(",") ){
+				if( checkValue.equals( categoryId ) ){
+					isNotInFav = false;
+				}
+			}
+			
+			if( isNotInFav ){
+				getFavourite = getFavourite+","+categoryId;
+			}
+			
+			SharedPreferences.Editor editor = sharedPreferences.edit();
+		    editor.putString(  FAVOURITE_CATEGORY, getFavourite );
+		    editor.commit();
 		}else if( categoryId.equals( CATEGORY_MENU_1 ) ){
-			//Intent newIntent = new Intent( this, ListScene.class );
-			Intent newIntent = new Intent( this, DetailScene.class );
+			Intent newIntent = new Intent( this, ListScene.class );
 			
 			if( v.equals( subCategoryButton1 ) ){
 				newIntent.putExtra(  PUT_EXTRA_SUB_CATEGORY_ID, CATEGORY_1_SUB_CATEGORY_1_ID );
@@ -244,7 +272,6 @@ public class SubCategoryScene extends Activity implements OnClickListener {
 				newIntent.putExtra(  PUT_EXTRA_SUB_CATEGORY_ID, CATEGORY_1_SUB_CATEGORY_5_ID );
 			}
 			
-			newIntent.putExtra(  DetailScene.PUT_EXTRA_PLACE_ID, "32" );
 			startActivity( newIntent );
 		}else if( categoryId.equals( CATEGORY_MENU_2 ) ){
 			Intent newIntent = new Intent( this, ListScene.class );
