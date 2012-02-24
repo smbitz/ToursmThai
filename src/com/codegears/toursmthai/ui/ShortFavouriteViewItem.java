@@ -13,7 +13,7 @@ public class ShortFavouriteViewItem extends LinearLayout {
 
 	private TextView itemTitle;
 	private TextView itemDescriptionText;
-	private String itemId;
+	private String itemURL;
 	
 	public ShortFavouriteViewItem(Context context) {
 		super(context);
@@ -31,11 +31,11 @@ public class ShortFavouriteViewItem extends LinearLayout {
 		itemDescriptionText.setText( setTextDescription );
 	}
 	
-	public void setItemId( String setItemId ){
-		itemId = setItemId;
+	public void setItemURL( String setItemURL ){
+		itemURL = setItemURL;
 	}
 	
-	public String getItemId(){
-		return this.itemId;
+	public String getItemURL(){
+		return this.itemURL;
 	}
 }

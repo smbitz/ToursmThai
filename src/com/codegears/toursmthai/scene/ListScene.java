@@ -28,6 +28,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
@@ -334,7 +335,7 @@ public class ListScene extends Activity implements NetworkThreadListener, OnClic
 					ShortFavouriteViewItem newShortItem = new ShortFavouriteViewItem( context );
 					newShortItem.setItemTitle( itemTitle );
 					newShortItem.setItemDescriptionText( itemURLText+"/-"+itemDescriptionText );
-					newShortItem.setItemId( itemId );
+					newShortItem.setItemURL( itemURLText );
 					newShortItem.setOnClickListener( ListScene.this );
 					shortViews.add( newShortItem );
 					
@@ -424,9 +425,14 @@ public class ListScene extends Activity implements NetworkThreadListener, OnClic
 			startActivity( newIntent );
 		}else if( v instanceof ShortFavouriteViewItem ){
 			ShortFavouriteViewItem newShortItem = (ShortFavouriteViewItem) v;
-
-			Intent newIntent = new Intent( this, DetailScene.class );
-			newIntent.putExtra(  DetailScene.PUT_EXTRA_PLACE_ID, newShortItem.getItemId() );
+			
+			String itemUrl = newShortItem.getItemURL();
+			
+			if (!itemUrl.startsWith("http://") && !itemUrl.startsWith("https://")){
+				itemUrl = "http://" + itemUrl;
+			}
+			
+			Intent newIntent = new Intent(Intent.ACTION_VIEW, Uri.parse( itemUrl ));
 			startActivity( newIntent );
 		}
 	}
