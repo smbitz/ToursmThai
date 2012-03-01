@@ -327,7 +327,7 @@
                 android:id="@+id/LinearLayout29"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="5.5"
+                android:layout_weight="6"
                 android:orientation="vertical" >
             </LinearLayout>
 
@@ -523,7 +523,7 @@
                 android:id="@+id/LinearLayout57"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1.7"
+                android:layout_weight="1.8"
                 android:orientation="vertical" >
             </LinearLayout>
 
@@ -555,7 +555,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:background="@null"
-                            android:src="@drawable/slow" android:scaleType="fitCenter"/>
+                            android:src="@drawable/easy_slow" android:scaleType="fitCenter"/>
 
                         <LinearLayout
                             android:id="@+id/LinearLayout50"
@@ -652,7 +652,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:background="@null"
-                            android:src="@drawable/sea_breeze" android:scaleType="fitCenter"/>
+                            android:src="@drawable/breeze" android:scaleType="fitCenter"/>
 
                         <LinearLayout
                             android:id="@+id/LinearLayout67"
@@ -827,25 +827,69 @@
                     android:id="@+id/textView2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="copy right by Tourism Authority of Thailand 2011" android:layout_gravity="center" android:textSize="7dp" android:textColor="#000000"/>
+                    android:text="© copyright by Tourism Authority of Thailand 2012" android:layout_gravity="center" android:textSize="7dp" android:textColor="#000000"/>
 
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayout90"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="25"
+                android:orientation="vertical" >
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout85"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:id="@+id/linearLayout3"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical" android:layout_weight="11">
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayout87"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:id="@+id/linearLayout88"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" android:layout_weight="2.5">
+                </LinearLayout>
+
+                <ImageButton
+                    android:id="@+id/categoryButton9"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:src="@drawable/favorite" />
+
+                <LinearLayout
+                    android:id="@+id/linearLayout89"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" android:layout_weight="1">
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayout86"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical" >
             </LinearLayout>
 
         </LinearLayout>
 
     </FrameLayout>
-
-    <LinearLayout
-        android:id="@+id/linearLayout3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-
-        <ImageButton
-            android:id="@+id/categoryButton9"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@null"
-            android:src="@drawable/ic_launcher" />
-    </LinearLayout>
 
 </LinearLayout>

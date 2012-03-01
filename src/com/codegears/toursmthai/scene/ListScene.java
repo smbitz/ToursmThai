@@ -180,7 +180,7 @@ public class ListScene extends Activity implements NetworkThreadListener, OnClic
 			listItemLayout2.setVisibility( View.GONE );
 			listSpaceButtom2.setVisibility( View.GONE );
 			
-			//Favourite Category
+			/*//Favourite Category
 			SharedPreferences sharedCategoryPreferences = getSharedPreferences( APP_FAVOURITE, 0);
 			String getCategoryFavourite = sharedCategoryPreferences.getString( SubCategoryScene.FAVOURITE_CATEGORY, "");
 			if( !getCategoryFavourite.equals( "" ) ){
@@ -200,7 +200,7 @@ public class ListScene extends Activity implements NetworkThreadListener, OnClic
 					SubCategoryData newSubCategoryData = app.getCategoryManager().getSubCategoryById( fetchSubCategoryId );
 					favouriteSubCategoryData.add( newSubCategoryData );
 				}
-			}
+			}*/
 			
 			//Favourite Place Data
 			SharedPreferences sharedPlacePreferences = getSharedPreferences( APP_FAVOURITE, 0);
@@ -214,6 +214,8 @@ public class ListScene extends Activity implements NetworkThreadListener, OnClic
 				String postData = NetworkUtil.createPostData( dataMap );
 				NetworkThreadUtil.getXml( app.getConfig().get( URL_GET_PLACE_BY_ID ).toString(),
 						postData, this );
+			}else{
+				loadingDialog.dismiss();
 			}
 		}
 	}
