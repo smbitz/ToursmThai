@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical" android:background="#ffffff">
 
     <FrameLayout
         android:id="@+id/frameLayout1"
@@ -31,7 +31,7 @@
             <LinearLayout
                 android:id="@+id/linearLayout7"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content" android:visibility="invisible">
 
                 <LinearLayout
                     android:id="@+id/linearLayout2"
@@ -42,7 +42,7 @@
                         android:id="@+id/linearLayout8"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:layout_weight="1" >
+                        android:layout_weight="8" >
                     </LinearLayout>
 
                     <ImageButton
@@ -69,7 +69,7 @@
                         android:id="@+id/linearLayout5"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:layout_weight="8" >
+                        android:layout_weight="1" >
                     </LinearLayout>
 
                 </LinearLayout>

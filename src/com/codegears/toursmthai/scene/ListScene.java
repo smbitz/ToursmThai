@@ -23,22 +23,27 @@ import com.codegears.toursmthai.util.NetworkUtil;
 
 import android.app.Activity;
 import android.app.ListActivity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.LinearLayout.LayoutParams;
 import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -79,12 +84,25 @@ public class ListScene extends Activity implements NetworkThreadListener, OnClic
 	private ArrayList<SubCategoryData> favouriteSubCategoryData;
 	private TextView textHead1;
 	private TextView textHead2;
+	private FrameLayout listNameHeader1;
+	private FrameLayout listNameHeader2;
+	private LinearLayout listItemLayout1;
+	private LinearLayout listItemLayout2;
+	private LinearLayout listSpaceButtom1;
+	private LinearLayout listSpaceButtom2;
+	private LinearLayout listLayoutIconHeader2;
+	private LinearLayout listLayoutDotHeader2;
+	private LinearLayout listLayoutFavouriteButton;
+	private ProgressDialog loadingDialog;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView( R.layout.listscene );
 		
+		loadingDialog = ProgressDialog.show(this, "", 
+	               "Loading. Please wait...", true);
+			
 		app = (MyApp) getApplication();
 		callFavourite = getIntent().getExtras().get( PUT_EXTRA_FAVOURITE_SCENE );
 		
@@ -111,6 +129,18 @@ public class ListScene extends Activity implements NetworkThreadListener, OnClic
 		familyButton = (ImageButton) findViewById( R.id.listFamilyMenuButton );
 		favouriteButton = (ImageButton) findViewById( R.id.listFavouriteMenuButton );
 		addFavouriteButton = (ImageButton) findViewById( R.id.listAddFavoriteButton );
+		listNameHeader1 = (FrameLayout) findViewById( R.id.listNameFrameLayout1 );
+		listNameHeader2 = (FrameLayout) findViewById( R.id.listNameFrameLayout2 );
+		listItemLayout1 = (LinearLayout) findViewById( R.id.listItemlinearLayout1 );
+		listItemLayout2 = (LinearLayout) findViewById( R.id.listItemLinearLayout2 );
+		listSpaceButtom1 = (LinearLayout) findViewById( R.id.listSpaceButtom1 );
+		listSpaceButtom2 = (LinearLayout) findViewById( R.id.listSpaceButtom2 );
+		listLayoutIconHeader2 = (LinearLayout) findViewById( R.id.listLayoutIconHeader2 );
+		listLayoutDotHeader2 = (LinearLayout) findViewById( R.id.listLayoutDotHeader2 );
+		listLayoutFavouriteButton = (LinearLayout) findViewById( R.id.listLayoutFavouriteButton );
+		
+		textHead1.setTypeface( app.getTextFont() );
+		textHead2.setTypeface( app.getTextFont() );
 		
 		backButton.setOnClickListener( this );
 		homeButton.setOnClickListener( this );
@@ -140,10 +170,15 @@ public class ListScene extends Activity implements NetworkThreadListener, OnClic
 					postData, this );
 		}else{
 			textHead1.setText( "Favourite Place" );
-			favouriteButton.setVisibility( favouriteButton.GONE );
-			addFavouriteButton.setVisibility( addFavouriteButton.GONE );
-			textHead2.setVisibility( textHead2.GONE );
-			listView2.setVisibility( listView2.GONE );
+			favouriteButton.setVisibility( View.GONE );
+			addFavouriteButton.setVisibility( View.GONE );
+			listLayoutFavouriteButton.setVisibility( View.GONE );
+			listNameHeader1.setLayoutParams( new LinearLayout.LayoutParams( LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT, 3.2f ) );
+			listItemLayout1.setLayoutParams( new LinearLayout.LayoutParams( LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT, 0.7f ) );
+			listSpaceButtom1.setLayoutParams( new LinearLayout.LayoutParams( LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT, 3.6f ) );
+			listNameHeader2.setVisibility( View.GONE );
+			listItemLayout2.setVisibility( View.GONE );
+			listSpaceButtom2.setVisibility( View.GONE );
 			
 			//Favourite Category
 			SharedPreferences sharedCategoryPreferences = getSharedPreferences( APP_FAVOURITE, 0);
@@ -203,29 +238,41 @@ public class ListScene extends Activity implements NetworkThreadListener, OnClic
 			this.runOnUiThread(new Runnable(){
 				public void run(){
 				if( fullItemData.size() == 0 && shortItemData.size() == 0 ){
-					textHead1.setVisibility( textHead1.GONE );
-					listView1.setVisibility( listView1.GONE );
+					listNameHeader1.setVisibility( View.GONE );
+					listItemLayout1.setVisibility( View.GONE );
+					listLayoutIconHeader2.setVisibility( View.GONE );
+					listLayoutDotHeader2.setVisibility( View.GONE );
 					textHead2.setText( "Sorry, no data." );
+					listNameHeader2.setLayoutParams( new LinearLayout.LayoutParams( LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT, 1f ) );
+					listSpaceButtom1.setLayoutParams( new LinearLayout.LayoutParams( LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT, 1f ) );
+					listSpaceButtom2.setLayoutParams( new LinearLayout.LayoutParams( LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT, 2f ) );
 				}else if( fullItemData.size() == 0 ){
-					textHead1.setVisibility( textHead1.GONE );
-					listView1.setVisibility( listView1.GONE );
+					listNameHeader1.setVisibility( View.GONE );
+					listItemLayout1.setVisibility( View.GONE );
+					listSpaceButtom1.setVisibility( View.GONE );
+					listNameHeader2.setLayoutParams( new LinearLayout.LayoutParams( LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT, 3.2f ) );
+					listItemLayout2.setLayoutParams( new LinearLayout.LayoutParams( LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT, 0.7f ) );
+					listSpaceButtom2.setLayoutParams( new LinearLayout.LayoutParams( LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT, 3.6f ) );
 				}else if( shortItemData.size() == 0 ){
-					textHead2.setVisibility( textHead2.GONE );
-					listView2.setVisibility( listView2.GONE );
+					listNameHeader2.setVisibility( View.GONE );
+					listItemLayout2.setVisibility( View.GONE );
+					listSpaceButtom2.setVisibility( View.GONE );
+					listNameHeader1.setLayoutParams( new LinearLayout.LayoutParams( LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT, 3.2f ) );
+					listItemLayout1.setLayoutParams( new LinearLayout.LayoutParams( LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT, 0.7f ) );
+					listSpaceButtom1.setLayoutParams( new LinearLayout.LayoutParams( LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT, 3.6f ) );
 				}
-			}});
 				
-			//Set List Adapter
-			this.runOnUiThread(new Runnable(){
-				public void run(){
-					MyListAdapter fullMyListAdapter = new MyListAdapter();
-					fullMyListAdapter.setData( getApplicationContext(), fullItemData );
-					listView1.setAdapter( fullMyListAdapter );
-					
-					MyListAdapter shortMyListAdapter = new MyListAdapter();
-					shortMyListAdapter.setData( getApplicationContext(), shortItemData );
-					listView2.setAdapter( shortMyListAdapter );
+				//Set List Adapter
+				MyListAdapter fullMyListAdapter = new MyListAdapter();
+				fullMyListAdapter.setData( getApplicationContext(), fullItemData );
+				listView1.setAdapter( fullMyListAdapter );
+				
+				MyListAdapter shortMyListAdapter = new MyListAdapter();
+				shortMyListAdapter.setData( getApplicationContext(), shortItemData );
+				listView2.setAdapter( shortMyListAdapter );
+				loadingDialog.dismiss();
 			}});
+		
 		}else{
 			NodeList fetchXml = document.getDocumentElement().getElementsByTagName( "place" );
 			for(int i = 0; i < fetchXml.getLength(); i++){
@@ -240,8 +287,10 @@ public class ListScene extends Activity implements NetworkThreadListener, OnClic
 					MyListAdapter fullMyListAdapter = new MyListAdapter();
 					fullMyListAdapter.setData( getApplicationContext(), favouritePlaceData );
 					listView1.setAdapter( fullMyListAdapter );
+					loadingDialog.dismiss();
 			}});
 		}
+		
 	}
 	
 	@Override
@@ -334,7 +383,7 @@ public class ListScene extends Activity implements NetworkThreadListener, OnClic
 					//Set short view item
 					ShortFavouriteViewItem newShortItem = new ShortFavouriteViewItem( context );
 					newShortItem.setItemTitle( itemTitle );
-					newShortItem.setItemDescriptionText( itemURLText+"/-"+itemDescriptionText );
+					newShortItem.setItemDescriptionText( itemURLText+"/ - "+itemDescriptionText );
 					newShortItem.setItemURL( itemURLText );
 					newShortItem.setOnClickListener( ListScene.this );
 					shortViews.add( newShortItem );
@@ -435,5 +484,13 @@ public class ListScene extends Activity implements NetworkThreadListener, OnClic
 			Intent newIntent = new Intent(Intent.ACTION_VIEW, Uri.parse( itemUrl ));
 			startActivity( newIntent );
 		}
+	}
+	
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if ((keyCode == KeyEvent.KEYCODE_BACK)) {
+    		System.out.println("On Back Button Click !!!");
+		}
+		return super.onKeyDown(keyCode, event);
 	}
 }

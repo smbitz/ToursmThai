@@ -17,6 +17,7 @@ import com.codegears.toursmthai.util.NetworkThreadUtil.NetworkThreadListener;
 import com.codegears.toursmthai.util.NetworkUtil;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -33,6 +34,7 @@ import android.widget.Gallery;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class DetailScene extends Activity implements OnClickListener, NetworkThreadListener {
 	
@@ -67,11 +69,15 @@ public class DetailScene extends Activity implements OnClickListener, NetworkThr
 	private Gallery detailGallery;
 	private ArrayList<URL> detailImageURL;
 	private ArrayList<Bitmap> detailImage;
+	private ProgressDialog loadingDialog;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView( R.layout.detailscene );
+		
+		loadingDialog = ProgressDialog.show(this, "", 
+	               "Loading. Please wait...", true);
 		
 		placeId = getIntent().getStringExtra( PUT_EXTRA_PLACE_ID ).toString();
 		
@@ -118,6 +124,8 @@ public class DetailScene extends Activity implements OnClickListener, NetworkThr
 		detailWebView = (WebView) findViewById( R.id.detailWebView );
 		detailGallery = (Gallery) findViewById( R.id.detailGallery );
 		
+		placeName.setTypeface( app.getTextFont() );
+		
 		HashMap< String, String > dataMap = new HashMap<String, String>();
 		dataMap.put( "place_id", placeId );
 		String postData = NetworkUtil.createPostData( dataMap );
@@ -136,6 +144,9 @@ public class DetailScene extends Activity implements OnClickListener, NetworkThr
 			Intent newIntent = new Intent( this, CategoryScene.class );
 			startActivity( newIntent );
 		}else if( v.equals( addFavouriteButton ) ){
+			Toast newToast = new Toast(this).makeText(this, "Add Favourite.", Toast.LENGTH_LONG);
+			newToast.show();
+			
 			Boolean isNotInFav = true;
 			SharedPreferences sharedPreferences = getSharedPreferences( APP_FAVOURITE, 0);
 			String getFavourite = sharedPreferences.getString( FAVOURITE_PLACE, "");
@@ -241,6 +252,8 @@ public class DetailScene extends Activity implements OnClickListener, NetworkThr
 				detailGallery.setAdapter( newGalleryAdapter );
 			}
 		});
+		
+		loadingDialog.dismiss();
 	}
 	
 	private class GalleryAdapter extends BaseAdapter {

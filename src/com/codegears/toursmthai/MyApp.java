@@ -4,12 +4,16 @@ import com.codegears.toursmthai.data.CategoryManager;
 import com.codegears.toursmthai.util.Config;
 
 import android.app.Application;
+import android.graphics.Typeface;
 
 public class MyApp extends Application implements LoadListener {
+	
+	private static final String FONT_POSITION = "font/2006_iannnnnBKK_2.ttf";
 	
 	private CategoryManager cManager;
 	private Config config;
 	private LoadListener listener;
+	private Typeface textFont;
 	
 	@Override
 	public void onCreate() {
@@ -17,6 +21,7 @@ public class MyApp extends Application implements LoadListener {
 		
 		cManager = new CategoryManager( this );
 		config = new Config( getApplicationContext() );
+		textFont = Typeface.createFromAsset(getAssets(), FONT_POSITION);
 	}
 	
 	public Config getConfig(){
@@ -25,6 +30,10 @@ public class MyApp extends Application implements LoadListener {
 	
 	public CategoryManager getCategoryManager(){
 		return cManager;
+	}
+	
+	public Typeface getTextFont(){
+		return textFont;
 	}
 	
 	public void setLoadListener(LoadListener listener){

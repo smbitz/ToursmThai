@@ -47,7 +47,7 @@
                 <LinearLayout
                     android:id="@+id/linearLayout9"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" >
+                    android:layout_height="wrap_content" android:visibility="gone">
 
                     <LinearLayout
                         android:id="@+id/linearLayout8"
@@ -148,7 +148,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:orientation="vertical" >
+                android:orientation="vertical" android:visibility="invisible">
 
                 <ImageButton
                     android:id="@+id/subCategorySeaBreeze360ViewButton"
@@ -182,7 +182,7 @@
                 <LinearLayout
                     android:id="@+id/LinearLayout07"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" >
+                    android:layout_height="wrap_content" android:visibility="gone">
 
                     <LinearLayout
                         android:id="@+id/LinearLayout08"
@@ -270,7 +270,7 @@
                     android:id="@+id/LinearLayout22"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="1.2"
                     android:orientation="vertical" >
                 </LinearLayout>
 
@@ -288,8 +288,8 @@
 
                     <LinearLayout
                         android:id="@+id/LinearLayout15"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent">
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" android:layout_weight="1.1">
 
                         <LinearLayout
                             android:id="@+id/LinearLayout21"
@@ -302,12 +302,12 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:background="@null"
-                                android:src="@drawable/hotel_sesort" />
+                                android:src="@drawable/hotel_sesort" android:scaleType="fitCenter"/>
 
                             <LinearLayout
                                 android:id="@+id/LinearLayout20"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content" >
+                                android:layout_height="wrap_content" android:visibility="gone">
 
                                 <LinearLayout
                                     android:id="@+id/LinearLayout19"
@@ -366,7 +366,7 @@
                     android:id="@+id/LinearLayout26"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="1.3"
                     android:orientation="vertical" >
                 </LinearLayout>
 
@@ -384,8 +384,8 @@
 
                     <LinearLayout
                         android:id="@+id/LinearLayout32"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent">
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" android:layout_weight="1.6">
 
                         <LinearLayout
                             android:id="@+id/LinearLayout10"
@@ -398,12 +398,12 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:background="@null"
-                                android:src="@drawable/cuisine" />
+                                android:src="@drawable/cuisine" android:scaleType="fitCenter"/>
 
                             <LinearLayout
                                 android:id="@+id/LinearLayout11"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content" >
+                                android:layout_height="wrap_content" android:visibility="gone">
 
                                 <LinearLayout
                                     android:id="@+id/LinearLayout09"
@@ -462,7 +462,7 @@
                     android:id="@+id/LinearLayout42"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="15"
+                    android:layout_weight="30"
                     android:orientation="vertical" >
                 </LinearLayout>
 
@@ -480,8 +480,8 @@
 
                     <LinearLayout
                         android:id="@+id/LinearLayout34"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent">
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" android:layout_weight="1.2">
 
                         <LinearLayout
                             android:id="@+id/LinearLayout37"
@@ -494,12 +494,12 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:background="@null"
-                                android:src="@drawable/activity" />
+                                android:src="@drawable/activity" android:scaleType="fitCenter"/>
 
                             <LinearLayout
                                 android:id="@+id/LinearLayout40"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content" >
+                                android:layout_height="wrap_content" android:visibility="gone">
 
                                 <LinearLayout
                                     android:id="@+id/LinearLayout33"
@@ -543,8 +543,7 @@
                     android:id="@+id/LinearLayout44"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical" >
+                    android:orientation="vertical" android:layout_weight="1">
                 </LinearLayout>
             </LinearLayout>
 
@@ -558,7 +557,7 @@
                     android:id="@+id/LinearLayout48"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="15"
+                    android:layout_weight="40"
                     android:orientation="vertical" >
                 </LinearLayout>
 
@@ -576,8 +575,8 @@
 
                     <LinearLayout
                         android:id="@+id/LinearLayout55"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent">
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" android:layout_weight="1.3">
 
                         <LinearLayout
                             android:id="@+id/LinearLayout51"
@@ -590,12 +589,12 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:background="@null"
-                                android:src="@drawable/attractions_03_5" />
+                                android:src="@drawable/attractions_03_5" android:scaleType="fitCenter"/>
 
                             <LinearLayout
                                 android:id="@+id/LinearLayout46"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content" >
+                                android:layout_height="wrap_content" android:visibility="gone">
 
                                 <LinearLayout
                                     android:id="@+id/LinearLayout56"
@@ -639,8 +638,7 @@
                     android:id="@+id/LinearLayout53"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical" >
+                    android:orientation="vertical" android:layout_weight="1">
                 </LinearLayout>
             </LinearLayout>
 
