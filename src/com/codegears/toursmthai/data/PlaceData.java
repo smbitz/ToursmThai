@@ -72,4 +72,8 @@ public class PlaceData {
 	public String getType(){
 		return this.type;
 	}
+	
+	public ArrayList<HotDealData> getHotDeal(){
+		return this.hotDeal;
+	}
 }

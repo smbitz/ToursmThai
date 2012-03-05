@@ -8,12 +8,14 @@ import android.graphics.Typeface;
 
 public class MyApp extends Application implements LoadListener {
 	
-	private static final String FONT_POSITION = "font/2006_iannnnnBKK_2.ttf";
+	private static final String FONT_LIST_HEADER = "font/2006_iannnnnBKK_2.ttf";
+	private static final String FONT_LIBERATIONSANS = "font/LiberationSans_Regular.ttf";
 	
 	private CategoryManager cManager;
 	private Config config;
 	private LoadListener listener;
-	private Typeface textFont;
+	private Typeface textListHeaderFont;
+	private Typeface textLiberationFont;
 	
 	@Override
 	public void onCreate() {
@@ -21,7 +23,8 @@ public class MyApp extends Application implements LoadListener {
 		
 		cManager = new CategoryManager( this );
 		config = new Config( getApplicationContext() );
-		textFont = Typeface.createFromAsset(getAssets(), FONT_POSITION);
+		textListHeaderFont = Typeface.createFromAsset(getAssets(), FONT_LIST_HEADER);
+		textLiberationFont = Typeface.createFromAsset(getAssets(), FONT_LIBERATIONSANS);
 	}
 	
 	public Config getConfig(){
@@ -32,8 +35,12 @@ public class MyApp extends Application implements LoadListener {
 		return cManager;
 	}
 	
-	public Typeface getTextFont(){
-		return textFont;
+	public Typeface getTextListHeaderFont(){
+		return textListHeaderFont;
+	}
+	
+	public Typeface getTextLiberationFont(){
+		return textLiberationFont;
 	}
 	
 	public void setLoadListener(LoadListener listener){

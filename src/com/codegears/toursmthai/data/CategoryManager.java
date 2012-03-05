@@ -80,7 +80,7 @@ public class CategoryManager implements NetworkThreadListener {
 
 	@Override
 	public void onNetworkFail(String urlString) {
-		
+		NetworkThreadUtil.getXml( urlString , this );
 	}
 
 }

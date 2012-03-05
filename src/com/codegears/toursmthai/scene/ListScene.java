@@ -16,6 +16,7 @@ import com.codegears.toursmthai.data.CategoryPlaceGroup;
 import com.codegears.toursmthai.data.PlaceData;
 import com.codegears.toursmthai.data.SubCategoryData;
 import com.codegears.toursmthai.ui.FullFavouriteViewItem;
+import com.codegears.toursmthai.ui.ListTextHeader;
 import com.codegears.toursmthai.ui.ShortFavouriteViewItem;
 import com.codegears.toursmthai.util.NetworkThreadUtil;
 import com.codegears.toursmthai.util.NetworkThreadUtil.NetworkThreadListener;
@@ -37,9 +38,11 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.ViewStub;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
+import android.widget.Gallery;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -94,6 +97,11 @@ public class ListScene extends Activity implements NetworkThreadListener, OnClic
 	private LinearLayout listLayoutDotHeader2;
 	private LinearLayout listLayoutFavouriteButton;
 	private ProgressDialog loadingDialog;
+	private ImageView imageHeader;
+	private ArrayList<Bitmap> arrayImageItem;
+	private ArrayList<PlaceData> fullItemData;
+	private ArrayList<PlaceData> shortItemData;
+	private ArrayList<PlaceData> sumArrayItemData;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -107,15 +115,15 @@ public class ListScene extends Activity implements NetworkThreadListener, OnClic
 		callFavourite = getIntent().getExtras().get( PUT_EXTRA_FAVOURITE_SCENE );
 		
 		listView1 = (ListView) findViewById( R.id.listTopListView );
-		listView2 = (ListView) findViewById( R.id.listMoreView );
 		
 		placeData = new ArrayList<PlaceData>();
 		favouritePlaceData = new ArrayList<PlaceData>();
 		favouriteCategoryData = new ArrayList<CategoryData>();
 		favouriteSubCategoryData = new ArrayList<SubCategoryData>();
-		
-		textHead1 = (TextView) findViewById( R.id.listTextHead1 );
-		textHead2 = (TextView) findViewById( R.id.listTextHead2 );
+		arrayImageItem = new ArrayList<Bitmap>();
+		fullItemData = new ArrayList<PlaceData>();
+		shortItemData = new ArrayList<PlaceData>();
+		sumArrayItemData = new ArrayList<PlaceData>();
 		
 		backButton = (ImageButton) findViewById( R.id.listBackButton );
 		homeButton = (ImageButton) findViewById( R.id.listHomeButton );
@@ -129,18 +137,9 @@ public class ListScene extends Activity implements NetworkThreadListener, OnClic
 		familyButton = (ImageButton) findViewById( R.id.listFamilyMenuButton );
 		favouriteButton = (ImageButton) findViewById( R.id.listFavouriteMenuButton );
 		addFavouriteButton = (ImageButton) findViewById( R.id.listAddFavoriteButton );
-		listNameHeader1 = (FrameLayout) findViewById( R.id.listNameFrameLayout1 );
-		listNameHeader2 = (FrameLayout) findViewById( R.id.listNameFrameLayout2 );
 		listItemLayout1 = (LinearLayout) findViewById( R.id.listItemlinearLayout1 );
-		listItemLayout2 = (LinearLayout) findViewById( R.id.listItemLinearLayout2 );
-		listSpaceButtom1 = (LinearLayout) findViewById( R.id.listSpaceButtom1 );
-		listSpaceButtom2 = (LinearLayout) findViewById( R.id.listSpaceButtom2 );
-		listLayoutIconHeader2 = (LinearLayout) findViewById( R.id.listLayoutIconHeader2 );
-		listLayoutDotHeader2 = (LinearLayout) findViewById( R.id.listLayoutDotHeader2 );
 		listLayoutFavouriteButton = (LinearLayout) findViewById( R.id.listLayoutFavouriteButton );
-		
-		textHead1.setTypeface( app.getTextFont() );
-		textHead2.setTypeface( app.getTextFont() );
+		imageHeader = (ImageView) findViewById( R.id.listImageHeader );
 		
 		backButton.setOnClickListener( this );
 		homeButton.setOnClickListener( this );
@@ -159,9 +158,71 @@ public class ListScene extends Activity implements NetworkThreadListener, OnClic
 		if( callFavourite == null ){
 			subCategoryId = getIntent().getExtras().get( SubCategoryScene.PUT_EXTRA_SUB_CATEGORY_ID ).toString();
 			
-			String subCategoryName = app.getCategoryManager().getSubCategoryById( subCategoryId ).getTitle();
-			textHead1.setText( "Top "+subCategoryName );
-			textHead2.setText( "More "+subCategoryName );
+			if( subCategoryId.equals( SubCategoryScene.CATEGORY_1_SUB_CATEGORY_1_ID ) ){
+				imageHeader.setImageResource( R.drawable.toppic_chic_1 );
+			}else if( subCategoryId.equals( SubCategoryScene.CATEGORY_1_SUB_CATEGORY_2_ID ) ){
+				imageHeader.setImageResource( R.drawable.toppic_chic_2 );
+			}else if( subCategoryId.equals( SubCategoryScene.CATEGORY_1_SUB_CATEGORY_3_ID ) ){
+				imageHeader.setImageResource( R.drawable.toppic_chic_3 );
+			}else if( subCategoryId.equals( SubCategoryScene.CATEGORY_1_SUB_CATEGORY_4_ID ) ){
+				imageHeader.setImageResource( R.drawable.toppic_chic_4 );
+			}else if( subCategoryId.equals( SubCategoryScene.CATEGORY_1_SUB_CATEGORY_5_ID ) ){
+				imageHeader.setImageResource( R.drawable.toppic_chic_5 );
+			}else if( subCategoryId.equals( SubCategoryScene.CATEGORY_2_SUB_CATEGORY_1_ID ) ){
+				imageHeader.setImageResource( R.drawable.toppic_thainess_1 );
+			}else if( subCategoryId.equals( SubCategoryScene.CATEGORY_2_SUB_CATEGORY_2_ID ) ){
+				imageHeader.setImageResource( R.drawable.toppic_thainess_2 );
+			}else if( subCategoryId.equals( SubCategoryScene.CATEGORY_2_SUB_CATEGORY_3_ID ) ){
+				imageHeader.setImageResource( R.drawable.toppic_thainess_3 );
+			}else if( subCategoryId.equals( SubCategoryScene.CATEGORY_2_SUB_CATEGORY_4_ID ) ){
+				imageHeader.setImageResource( R.drawable.toppic_thainess_4 );
+			}else if( subCategoryId.equals( SubCategoryScene.CATEGORY_3_SUB_CATEGORY_1_ID ) ){
+				imageHeader.setImageResource( R.drawable.toppic_wellness_1 );
+			}else if( subCategoryId.equals( SubCategoryScene.CATEGORY_3_SUB_CATEGORY_2_ID ) ){
+				imageHeader.setImageResource( R.drawable.toppic_wellness_2 );
+			}else if( subCategoryId.equals( SubCategoryScene.CATEGORY_3_SUB_CATEGORY_3_ID ) ){
+				imageHeader.setImageResource( R.drawable.toppic_wellness_3 );
+			}else if( subCategoryId.equals( SubCategoryScene.CATEGORY_4_SUB_CATEGORY_1_ID ) ){
+				imageHeader.setImageResource( R.drawable.toppic_romance_1 );
+			}else if( subCategoryId.equals( SubCategoryScene.CATEGORY_4_SUB_CATEGORY_2_ID ) ){
+				imageHeader.setImageResource( R.drawable.toppic_romance_2 );
+			}else if( subCategoryId.equals( SubCategoryScene.CATEGORY_4_SUB_CATEGORY_3_ID ) ){
+				imageHeader.setImageResource( R.drawable.toppic_romance_3 );
+			}else if( subCategoryId.equals( SubCategoryScene.CATEGORY_4_SUB_CATEGORY_4_ID ) ){
+				imageHeader.setImageResource( R.drawable.toppic_romance_4 );
+			}else if( subCategoryId.equals( SubCategoryScene.CATEGORY_5_SUB_CATEGORY_1_ID ) ){
+				imageHeader.setImageResource( R.drawable.toppic_adventure_1 );
+			}else if( subCategoryId.equals( SubCategoryScene.CATEGORY_5_SUB_CATEGORY_2_ID ) ){
+				imageHeader.setImageResource( R.drawable.toppic_adventure_2 );
+			}else if( subCategoryId.equals( SubCategoryScene.CATEGORY_5_SUB_CATEGORY_3_ID ) ){
+				imageHeader.setImageResource( R.drawable.toppic_adventure_3 );
+			}else if( subCategoryId.equals( SubCategoryScene.CATEGORY_5_SUB_CATEGORY_4_ID ) ){
+				imageHeader.setImageResource( R.drawable.toppic_adventure_4 );
+			}else if( subCategoryId.equals( SubCategoryScene.CATEGORY_6_SUB_CATEGORY_1_ID ) ){
+				imageHeader.setImageResource( R.drawable.toppic_slow_1 );
+			}else if( subCategoryId.equals( SubCategoryScene.CATEGORY_6_SUB_CATEGORY_2_ID ) ){
+				imageHeader.setImageResource( R.drawable.toppic_slow_2 );
+			}else if( subCategoryId.equals( SubCategoryScene.CATEGORY_6_SUB_CATEGORY_3_ID ) ){
+				imageHeader.setImageResource( R.drawable.toppic_slow_3 );
+			}else if( subCategoryId.equals( SubCategoryScene.CATEGORY_6_SUB_CATEGORY_4_ID ) ){
+				imageHeader.setImageResource( R.drawable.toppic_slow_4 );
+			}else if( subCategoryId.equals( SubCategoryScene.CATEGORY_7_SUB_CATEGORY_1_ID ) ){
+				imageHeader.setImageResource( R.drawable.toppic_breezy_1 );
+			}else if( subCategoryId.equals( SubCategoryScene.CATEGORY_7_SUB_CATEGORY_2_ID ) ){
+				imageHeader.setImageResource( R.drawable.toppic_breezy_2 );
+			}else if( subCategoryId.equals( SubCategoryScene.CATEGORY_7_SUB_CATEGORY_3_ID ) ){
+				imageHeader.setImageResource( R.drawable.toppic_breezy_3 );
+			}else if( subCategoryId.equals( SubCategoryScene.CATEGORY_7_SUB_CATEGORY_4_ID ) ){
+				imageHeader.setImageResource( R.drawable.toppic_breezy_4 );
+			}else if( subCategoryId.equals( SubCategoryScene.CATEGORY_8_SUB_CATEGORY_1_ID ) ){
+				imageHeader.setImageResource( R.drawable.toppic_family_1 );
+			}else if( subCategoryId.equals( SubCategoryScene.CATEGORY_8_SUB_CATEGORY_2_ID ) ){
+				imageHeader.setImageResource( R.drawable.toppic_family_2 );
+			}else if( subCategoryId.equals( SubCategoryScene.CATEGORY_8_SUB_CATEGORY_3_ID ) ){
+				imageHeader.setImageResource( R.drawable.toppic_family_3 );
+			}else if( subCategoryId.equals( SubCategoryScene.CATEGORY_8_SUB_CATEGORY_4_ID ) ){
+				imageHeader.setImageResource( R.drawable.toppic_family_4 );
+			}
 			
 			HashMap< String, String > dataMap = new HashMap<String, String>();
 			dataMap.put( "subcategory_id", subCategoryId );
@@ -169,17 +230,6 @@ public class ListScene extends Activity implements NetworkThreadListener, OnClic
 			NetworkThreadUtil.getXml( app.getConfig().get( URL_GET_PLACE_BY_SUB_CATEGORY ).toString(),
 					postData, this );
 		}else{
-			textHead1.setText( "Favourite Place" );
-			favouriteButton.setVisibility( View.GONE );
-			addFavouriteButton.setVisibility( View.GONE );
-			listLayoutFavouriteButton.setVisibility( View.GONE );
-			listNameHeader1.setLayoutParams( new LinearLayout.LayoutParams( LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT, 3.2f ) );
-			listItemLayout1.setLayoutParams( new LinearLayout.LayoutParams( LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT, 0.7f ) );
-			listSpaceButtom1.setLayoutParams( new LinearLayout.LayoutParams( LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT, 3.6f ) );
-			listNameHeader2.setVisibility( View.GONE );
-			listItemLayout2.setVisibility( View.GONE );
-			listSpaceButtom2.setVisibility( View.GONE );
-			
 			/*//Favourite Category
 			SharedPreferences sharedCategoryPreferences = getSharedPreferences( APP_FAVOURITE, 0);
 			String getCategoryFavourite = sharedCategoryPreferences.getString( SubCategoryScene.FAVOURITE_CATEGORY, "");
@@ -222,8 +272,8 @@ public class ListScene extends Activity implements NetworkThreadListener, OnClic
 	
 	private void onXmlComplete( Document document ){
 		if( callFavourite == null ){
-			final ArrayList<PlaceData> fullItemData = new ArrayList<PlaceData>();
-			final ArrayList<PlaceData> shortItemData = new ArrayList<PlaceData>();
+			URL mainPictureURL = null;
+			Bitmap imageBitmap = null;
 			NodeList fetchXml = document.getDocumentElement().getElementsByTagName( "place" );
 			for(int i = 0; i < fetchXml.getLength(); i++){
 				PlaceData newPlaceData = new PlaceData();
@@ -231,47 +281,40 @@ public class ListScene extends Activity implements NetworkThreadListener, OnClic
 				placeData.add( newPlaceData );
 				
 				if( newPlaceData.getType().equals( DATA_TYPE_FULL ) ){
+					try {
+						mainPictureURL = new URL( newPlaceData.getMainPictureURL() );
+					} catch (MalformedURLException e) {
+						e.printStackTrace();
+					}
+					
+					try {
+						imageBitmap = BitmapFactory.decodeStream( mainPictureURL.openConnection().getInputStream() );
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+					
+					arrayImageItem.add( imageBitmap );
 					fullItemData.add( newPlaceData );
 				}else{
 					shortItemData.add( newPlaceData );
 				}
 			}
 			
+			//Set SumPlaceData
+			for( PlaceData fetchFullPlace:fullItemData ){
+				sumArrayItemData.add( fetchFullPlace );
+			}
+			
+			for( PlaceData fetchShortPlace:shortItemData ){
+				sumArrayItemData.add( fetchShortPlace );
+			}
+			
 			this.runOnUiThread(new Runnable(){
 				public void run(){
-				if( fullItemData.size() == 0 && shortItemData.size() == 0 ){
-					listNameHeader1.setVisibility( View.GONE );
-					listItemLayout1.setVisibility( View.GONE );
-					listLayoutIconHeader2.setVisibility( View.GONE );
-					listLayoutDotHeader2.setVisibility( View.GONE );
-					textHead2.setText( "Sorry, no data." );
-					listNameHeader2.setLayoutParams( new LinearLayout.LayoutParams( LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT, 1f ) );
-					listSpaceButtom1.setLayoutParams( new LinearLayout.LayoutParams( LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT, 1f ) );
-					listSpaceButtom2.setLayoutParams( new LinearLayout.LayoutParams( LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT, 2f ) );
-				}else if( fullItemData.size() == 0 ){
-					listNameHeader1.setVisibility( View.GONE );
-					listItemLayout1.setVisibility( View.GONE );
-					listSpaceButtom1.setVisibility( View.GONE );
-					listNameHeader2.setLayoutParams( new LinearLayout.LayoutParams( LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT, 3.2f ) );
-					listItemLayout2.setLayoutParams( new LinearLayout.LayoutParams( LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT, 0.7f ) );
-					listSpaceButtom2.setLayoutParams( new LinearLayout.LayoutParams( LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT, 3.6f ) );
-				}else if( shortItemData.size() == 0 ){
-					listNameHeader2.setVisibility( View.GONE );
-					listItemLayout2.setVisibility( View.GONE );
-					listSpaceButtom2.setVisibility( View.GONE );
-					listNameHeader1.setLayoutParams( new LinearLayout.LayoutParams( LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT, 3.2f ) );
-					listItemLayout1.setLayoutParams( new LinearLayout.LayoutParams( LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT, 0.7f ) );
-					listSpaceButtom1.setLayoutParams( new LinearLayout.LayoutParams( LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT, 3.6f ) );
-				}
-				
 				//Set List Adapter
 				MyListAdapter fullMyListAdapter = new MyListAdapter();
-				fullMyListAdapter.setData( getApplicationContext(), fullItemData );
+				fullMyListAdapter.setData( getApplicationContext(), sumArrayItemData, fullItemData.size(), shortItemData.size() );
 				listView1.setAdapter( fullMyListAdapter );
-				
-				MyListAdapter shortMyListAdapter = new MyListAdapter();
-				shortMyListAdapter.setData( getApplicationContext(), shortItemData );
-				listView2.setAdapter( shortMyListAdapter );
 				loadingDialog.dismiss();
 			}});
 		
@@ -287,7 +330,7 @@ public class ListScene extends Activity implements NetworkThreadListener, OnClic
 			this.runOnUiThread(new Runnable(){
 				public void run(){
 					MyListAdapter fullMyListAdapter = new MyListAdapter();
-					fullMyListAdapter.setData( getApplicationContext(), favouritePlaceData );
+					fullMyListAdapter.setDataFavourite( getApplicationContext(), favouritePlaceData );
 					listView1.setAdapter( fullMyListAdapter );
 					loadingDialog.dismiss();
 			}});
@@ -314,14 +357,19 @@ public class ListScene extends Activity implements NetworkThreadListener, OnClic
 		
 		private Context context;
 		private ArrayList<PlaceData> data;
-		private ArrayList<FullFavouriteViewItem> fullViews;
-		private ArrayList<ShortFavouriteViewItem> shortViews;
+		private int fullDataSize;
+		private int shortDataSize;
 		
-		public void setData( Context setContext, ArrayList<PlaceData> setData ){
+		public void setData( Context setContext, ArrayList<PlaceData> setData, int setFullDataSize, int setShortDataSize ){
 			context = setContext;
 			data = setData;
-			fullViews = new ArrayList<FullFavouriteViewItem>( data.size() );
-			shortViews = new ArrayList<ShortFavouriteViewItem>( data.size() );
+			fullDataSize = setFullDataSize;
+			shortDataSize = setShortDataSize;
+		}
+		
+		public void setDataFavourite( Context setContext, ArrayList<PlaceData> setData ){
+			context = setContext;
+			data = setData;
 		}
 		
 		@Override
@@ -331,13 +379,7 @@ public class ListScene extends Activity implements NetworkThreadListener, OnClic
 
 		@Override
 		public Object getItem( int position ) {
-			PlaceData currentData = data.get( position );
-			
-			if( currentData.getType().equals( DATA_TYPE_FULL ) ){
-				return fullViews.get( position );
-			}else{
-				return shortViews.get( position );
-			}
+			return data.get( position );
 		}
 
 		@Override
@@ -348,20 +390,9 @@ public class ListScene extends Activity implements NetworkThreadListener, OnClic
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
 			PlaceData currentData = data.get( position );
-			URL mainPictureURL = null;
-			Bitmap imageBitmap = null;
-			
-			try {
-				mainPictureURL = new URL( currentData.getMainPictureURL() );
-			} catch (MalformedURLException e) {
-				e.printStackTrace();
-			}
-			
-			try {
-				imageBitmap = BitmapFactory.decodeStream( mainPictureURL.openConnection().getInputStream() );
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			LinearLayout newLayout = new LinearLayout( ListScene.this );
+			newLayout.setOrientation( LinearLayout.VERTICAL );
+			newLayout.setLayoutParams( new ListView.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT) );
 			
 			String itemURLText = currentData.getURL();
 			String itemDescriptionText = currentData.getDescription();
@@ -370,40 +401,207 @@ public class ListScene extends Activity implements NetworkThreadListener, OnClic
 			
 			//If ListView
 			if( callFavourite == null ){
+				
+				String subCategoryName = app.getCategoryManager().getSubCategoryById( subCategoryId ).getTitle();
+				
+				if( fullDataSize > 0 && position == 0 ){
+					ListTextHeader newText = new ListTextHeader( context );
+					newText.setTextHeader( "Top "+subCategoryName );
+					newText.setTextFont( app.getTextListHeaderFont() );
+					
+					if( subCategoryId.equals( SubCategoryScene.CATEGORY_1_SUB_CATEGORY_1_ID ) ){
+						newText.setIconHeader( R.drawable.top_restaurants_1 );
+					}else if( subCategoryId.equals( SubCategoryScene.CATEGORY_1_SUB_CATEGORY_2_ID ) ){
+						newText.setIconHeader( R.drawable.top_accomodations_1 );
+					}else if( subCategoryId.equals( SubCategoryScene.CATEGORY_1_SUB_CATEGORY_3_ID ) ){
+						newText.setIconHeader( R.drawable.top_things_to_do_1 );
+					}else if( subCategoryId.equals( SubCategoryScene.CATEGORY_1_SUB_CATEGORY_4_ID ) ){
+						newText.setIconHeader( R.drawable.top_night_life_1 );
+					}else if( subCategoryId.equals( SubCategoryScene.CATEGORY_1_SUB_CATEGORY_5_ID ) ){
+						newText.setIconHeader( R.drawable.top_exclusive_service_1 );
+					}else if( subCategoryId.equals( SubCategoryScene.CATEGORY_2_SUB_CATEGORY_1_ID ) ){
+						newText.setIconHeader( R.drawable.top_accommodations_2 );
+					}else if( subCategoryId.equals( SubCategoryScene.CATEGORY_2_SUB_CATEGORY_2_ID ) ){
+						newText.setIconHeader( R.drawable.top_restaurants_2 );
+					}else if( subCategoryId.equals( SubCategoryScene.CATEGORY_2_SUB_CATEGORY_3_ID ) ){
+						newText.setIconHeader( R.drawable.top_things_to_do_2 );
+					}else if( subCategoryId.equals( SubCategoryScene.CATEGORY_2_SUB_CATEGORY_4_ID ) ){
+						newText.setIconHeader( R.drawable.top_attractions_2 );
+					}else if( subCategoryId.equals( SubCategoryScene.CATEGORY_3_SUB_CATEGORY_1_ID ) ){
+						newText.setIconHeader( R.drawable.top_accommodations_3 );
+					}else if( subCategoryId.equals( SubCategoryScene.CATEGORY_3_SUB_CATEGORY_2_ID ) ){
+						newText.setIconHeader( R.drawable.top_restaurants_3 );
+					}else if( subCategoryId.equals( SubCategoryScene.CATEGORY_3_SUB_CATEGORY_3_ID ) ){
+						newText.setIconHeader( R.drawable.top_things_to_do_3 );
+					}else if( subCategoryId.equals( SubCategoryScene.CATEGORY_4_SUB_CATEGORY_1_ID ) ){
+						newText.setIconHeader( R.drawable.top_accommodations_4 );
+					}else if( subCategoryId.equals( SubCategoryScene.CATEGORY_4_SUB_CATEGORY_2_ID ) ){
+						newText.setIconHeader( R.drawable.top_restaurants_4 );
+					}else if( subCategoryId.equals( SubCategoryScene.CATEGORY_4_SUB_CATEGORY_3_ID ) ){
+						newText.setIconHeader( R.drawable.top_things_to_do_4 );
+					}else if( subCategoryId.equals( SubCategoryScene.CATEGORY_4_SUB_CATEGORY_4_ID ) ){
+						newText.setIconHeader( R.drawable.top_attractions_4 );
+					}else if( subCategoryId.equals( SubCategoryScene.CATEGORY_5_SUB_CATEGORY_1_ID ) ){
+						newText.setIconHeader( R.drawable.top_accommodations_5 );
+					}else if( subCategoryId.equals( SubCategoryScene.CATEGORY_5_SUB_CATEGORY_2_ID ) ){
+						newText.setIconHeader( R.drawable.top_restaurants_5 );
+					}else if( subCategoryId.equals( SubCategoryScene.CATEGORY_5_SUB_CATEGORY_3_ID ) ){
+						newText.setIconHeader( R.drawable.top_things_to_do_5 );
+					}else if( subCategoryId.equals( SubCategoryScene.CATEGORY_5_SUB_CATEGORY_4_ID ) ){
+						newText.setIconHeader( R.drawable.top_attractions_5 );
+					}else if( subCategoryId.equals( SubCategoryScene.CATEGORY_6_SUB_CATEGORY_1_ID ) ){
+						newText.setIconHeader( R.drawable.top_accommodations_6 );
+					}else if( subCategoryId.equals( SubCategoryScene.CATEGORY_6_SUB_CATEGORY_2_ID ) ){
+						newText.setIconHeader( R.drawable.top_restaurants_6 );
+					}else if( subCategoryId.equals( SubCategoryScene.CATEGORY_6_SUB_CATEGORY_3_ID ) ){
+						newText.setIconHeader( R.drawable.top_things_to_do_6 );
+					}else if( subCategoryId.equals( SubCategoryScene.CATEGORY_6_SUB_CATEGORY_4_ID ) ){
+						newText.setIconHeader( R.drawable.top_attractions_6 );
+					}else if( subCategoryId.equals( SubCategoryScene.CATEGORY_7_SUB_CATEGORY_1_ID ) ){
+						newText.setIconHeader( R.drawable.top_accommodations_7 );
+					}else if( subCategoryId.equals( SubCategoryScene.CATEGORY_7_SUB_CATEGORY_2_ID ) ){
+						newText.setIconHeader( R.drawable.top_restaurants_7 );
+					}else if( subCategoryId.equals( SubCategoryScene.CATEGORY_7_SUB_CATEGORY_3_ID ) ){
+						newText.setIconHeader( R.drawable.top_things_to_do_7 );
+					}else if( subCategoryId.equals( SubCategoryScene.CATEGORY_7_SUB_CATEGORY_4_ID ) ){
+						newText.setIconHeader( R.drawable.top_attractions_7 );
+					}else if( subCategoryId.equals( SubCategoryScene.CATEGORY_8_SUB_CATEGORY_1_ID ) ){
+						newText.setIconHeader( R.drawable.top_accommodations_8 );
+					}else if( subCategoryId.equals( SubCategoryScene.CATEGORY_8_SUB_CATEGORY_2_ID ) ){
+						newText.setIconHeader( R.drawable.top_restaurants_8 );
+					}else if( subCategoryId.equals( SubCategoryScene.CATEGORY_8_SUB_CATEGORY_3_ID ) ){
+						newText.setIconHeader( R.drawable.top_things_to_do_8 );
+					}else if( subCategoryId.equals( SubCategoryScene.CATEGORY_8_SUB_CATEGORY_4_ID ) ){
+						newText.setIconHeader( R.drawable.top_attractions_8 );
+					}
+					
+					newLayout.addView( newText );
+				}else if( shortDataSize > 0 && position == fullDataSize ){
+					ListTextHeader newText = new ListTextHeader( context );
+					newText.setTextHeader( "More "+subCategoryName );
+					newText.setTextFont( app.getTextListHeaderFont() );
+					
+					if( subCategoryId.equals( SubCategoryScene.CATEGORY_1_SUB_CATEGORY_1_ID ) ){
+						newText.setIconHeader( R.drawable.more_restaurants_1 );
+					}else if( subCategoryId.equals( SubCategoryScene.CATEGORY_1_SUB_CATEGORY_2_ID ) ){
+						newText.setIconHeader( R.drawable.more_accomodations_1 );
+					}else if( subCategoryId.equals( SubCategoryScene.CATEGORY_1_SUB_CATEGORY_3_ID ) ){
+						newText.setIconHeader( R.drawable.more_things_to_do_1 );
+					}else if( subCategoryId.equals( SubCategoryScene.CATEGORY_1_SUB_CATEGORY_4_ID ) ){
+						newText.setIconHeader( R.drawable.more_night_life_1 );
+					}else if( subCategoryId.equals( SubCategoryScene.CATEGORY_1_SUB_CATEGORY_5_ID ) ){
+						newText.setIconHeader( R.drawable.more_exclusive_service_1 );
+					}else if( subCategoryId.equals( SubCategoryScene.CATEGORY_2_SUB_CATEGORY_1_ID ) ){
+						newText.setIconHeader( R.drawable.more_accommodations_2 );
+					}else if( subCategoryId.equals( SubCategoryScene.CATEGORY_2_SUB_CATEGORY_2_ID ) ){
+						newText.setIconHeader( R.drawable.more_restaurants_2 );
+					}else if( subCategoryId.equals( SubCategoryScene.CATEGORY_2_SUB_CATEGORY_3_ID ) ){
+						newText.setIconHeader( R.drawable.more_things_to_do_2 );
+					}else if( subCategoryId.equals( SubCategoryScene.CATEGORY_2_SUB_CATEGORY_4_ID ) ){
+						newText.setIconHeader( R.drawable.more_attractions_2 );
+					}else if( subCategoryId.equals( SubCategoryScene.CATEGORY_3_SUB_CATEGORY_1_ID ) ){
+						newText.setIconHeader( R.drawable.more_accommodations_3 );
+					}else if( subCategoryId.equals( SubCategoryScene.CATEGORY_3_SUB_CATEGORY_2_ID ) ){
+						newText.setIconHeader( R.drawable.more_restaurants_3 );
+					}else if( subCategoryId.equals( SubCategoryScene.CATEGORY_3_SUB_CATEGORY_3_ID ) ){
+						newText.setIconHeader( R.drawable.more_things_to_do_3 );
+					}else if( subCategoryId.equals( SubCategoryScene.CATEGORY_4_SUB_CATEGORY_1_ID ) ){
+						newText.setIconHeader( R.drawable.more_accommodations_4 );
+					}else if( subCategoryId.equals( SubCategoryScene.CATEGORY_4_SUB_CATEGORY_2_ID ) ){
+						newText.setIconHeader( R.drawable.more_restaurants_4 );
+					}else if( subCategoryId.equals( SubCategoryScene.CATEGORY_4_SUB_CATEGORY_3_ID ) ){
+						newText.setIconHeader( R.drawable.more_things_to_do_4 );
+					}else if( subCategoryId.equals( SubCategoryScene.CATEGORY_4_SUB_CATEGORY_4_ID ) ){
+						newText.setIconHeader( R.drawable.more_attractions_4 );
+					}else if( subCategoryId.equals( SubCategoryScene.CATEGORY_5_SUB_CATEGORY_1_ID ) ){
+						newText.setIconHeader( R.drawable.more_accommodations_5 );
+					}else if( subCategoryId.equals( SubCategoryScene.CATEGORY_5_SUB_CATEGORY_2_ID ) ){
+						newText.setIconHeader( R.drawable.more_restaurants_5 );
+					}else if( subCategoryId.equals( SubCategoryScene.CATEGORY_5_SUB_CATEGORY_3_ID ) ){
+						newText.setIconHeader( R.drawable.more_things_to_do_5 );
+					}else if( subCategoryId.equals( SubCategoryScene.CATEGORY_5_SUB_CATEGORY_4_ID ) ){
+						newText.setIconHeader( R.drawable.more_attractions_5 );
+					}else if( subCategoryId.equals( SubCategoryScene.CATEGORY_6_SUB_CATEGORY_1_ID ) ){
+						newText.setIconHeader( R.drawable.more_accommodations_6 );
+					}else if( subCategoryId.equals( SubCategoryScene.CATEGORY_6_SUB_CATEGORY_2_ID ) ){
+						newText.setIconHeader( R.drawable.more_restaurants_6 );
+					}else if( subCategoryId.equals( SubCategoryScene.CATEGORY_6_SUB_CATEGORY_3_ID ) ){
+						//Thing to do 6 image.
+						//newText.setIconHeader( R.drawable.more_th );
+					}else if( subCategoryId.equals( SubCategoryScene.CATEGORY_6_SUB_CATEGORY_4_ID ) ){
+						newText.setIconHeader( R.drawable.more_attractions_6 );
+					}else if( subCategoryId.equals( SubCategoryScene.CATEGORY_7_SUB_CATEGORY_1_ID ) ){
+						newText.setIconHeader( R.drawable.more_accommodations_7 );
+					}else if( subCategoryId.equals( SubCategoryScene.CATEGORY_7_SUB_CATEGORY_2_ID ) ){
+						newText.setIconHeader( R.drawable.more_restaurants_7 );
+					}else if( subCategoryId.equals( SubCategoryScene.CATEGORY_7_SUB_CATEGORY_3_ID ) ){
+						newText.setIconHeader( R.drawable.more_things_to_do_7 );
+					}else if( subCategoryId.equals( SubCategoryScene.CATEGORY_7_SUB_CATEGORY_4_ID ) ){
+						newText.setIconHeader( R.drawable.more_attractions_7 );
+					}else if( subCategoryId.equals( SubCategoryScene.CATEGORY_8_SUB_CATEGORY_1_ID ) ){
+						newText.setIconHeader( R.drawable.more_accommodations_8 );
+					}else if( subCategoryId.equals( SubCategoryScene.CATEGORY_8_SUB_CATEGORY_2_ID ) ){
+						newText.setIconHeader( R.drawable.more_restaurants_8 );
+					}else if( subCategoryId.equals( SubCategoryScene.CATEGORY_8_SUB_CATEGORY_3_ID ) ){
+						newText.setIconHeader( R.drawable.more_things_to_do_8 );
+					}else if( subCategoryId.equals( SubCategoryScene.CATEGORY_8_SUB_CATEGORY_4_ID ) ){
+						newText.setIconHeader( R.drawable.more_attractions_8 );
+					}
+					
+					newLayout.addView( newText );
+				}
+				
 				if( currentData.getType().equals( DATA_TYPE_FULL ) ){
 					//Set full view item
 					FullFavouriteViewItem newFullItem = new FullFavouriteViewItem( context );
-					newFullItem.setImageView( imageBitmap );
+					newFullItem.setImageView( arrayImageItem.get( position ) );
 					newFullItem.setItemURLText( itemURLText );
 					newFullItem.setItemDescriptionText( itemDescriptionText );
 					newFullItem.setItemId( itemId );
-					newFullItem.setOnClickListener( ListScene.this );
-					fullViews.add( newFullItem );
+					newFullItem.setItemName( itemTitle );
+					newFullItem.setFontItemName( app.getTextLiberationFont() );
+					newFullItem.setFontItemURLText( app.getTextLiberationFont() );
+					newFullItem.setFontItemDescriptionText( app.getTextLiberationFont() );
 					
-					return newFullItem;
+					if( currentData.getHotDeal().size() > 0  ){
+						newFullItem.setHotDealIconVisibility( View.VISIBLE );
+						newFullItem.setHotDealLayoutSpaceVisibility( View.VISIBLE );
+					}
+					
+					newFullItem.setOnClickListener( ListScene.this );
+					
+					newLayout.addView( newFullItem );
 				}else{
 					//Set short view item
 					ShortFavouriteViewItem newShortItem = new ShortFavouriteViewItem( context );
 					newShortItem.setItemTitle( itemTitle );
 					newShortItem.setItemDescriptionText( itemURLText+"/ - "+itemDescriptionText );
 					newShortItem.setItemURL( itemURLText );
+					newShortItem.setFontItemTitle( app.getTextLiberationFont() );
+					newShortItem.setFontItemDescriptionText( app.getTextLiberationFont() );
 					newShortItem.setOnClickListener( ListScene.this );
-					shortViews.add( newShortItem );
 					
-					return newShortItem;
+					newLayout.addView( newShortItem );
 				}
 			}else{
+				//Header
+				ListTextHeader newText = new ListTextHeader( context );
+				newText.setTextHeader( "Favourite Place" );
+				newText.setTextFont( app.getTextListHeaderFont() );
+				newLayout.addView( newText );
+				
 				//If favourite set all full view item
 				FullFavouriteViewItem newFullItem = new FullFavouriteViewItem( context );
-				newFullItem.setImageView( imageBitmap );
+				newFullItem.setImageView( arrayImageItem.get( position ) );
 				newFullItem.setItemURLText( itemURLText );
 				newFullItem.setItemDescriptionText( itemDescriptionText );
 				newFullItem.setItemId( itemId );
 				newFullItem.setOnClickListener( ListScene.this );
-				fullViews.add( newFullItem );
 				
-				return newFullItem;
+				newLayout.addView( newFullItem );
 			}
+			
+			return newLayout;
 		}
 	}
 
@@ -470,9 +668,11 @@ public class ListScene extends Activity implements NetworkThreadListener, OnClic
 			startActivity( newIntent );
 		}else if( v instanceof FullFavouriteViewItem ){
 			FullFavouriteViewItem newFullItem = (FullFavouriteViewItem) v;
-
+			
+			String newArrayExtra[] = { subCategoryId,newFullItem.getItemId() };
+			
 			Intent newIntent = new Intent( this, DetailScene.class );
-			newIntent.putExtra(  DetailScene.PUT_EXTRA_PLACE_ID, newFullItem.getItemId() );
+			newIntent.putExtra(  DetailScene.PUT_EXTRA_PLACE_ID, newArrayExtra );
 			startActivity( newIntent );
 		}else if( v instanceof ShortFavouriteViewItem ){
 			ShortFavouriteViewItem newShortItem = (ShortFavouriteViewItem) v;
@@ -489,10 +689,44 @@ public class ListScene extends Activity implements NetworkThreadListener, OnClic
 	}
 	
 	@Override
-	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		if ((keyCode == KeyEvent.KEYCODE_BACK)) {
-    		System.out.println("On Back Button Click !!!");
+	protected void onPause() {
+		listView1.setAdapter(null);
+		for( Bitmap fetchImage:arrayImageItem ){
+			fetchImage.recycle();
 		}
-		return super.onKeyDown(keyCode, event);
+		arrayImageItem.clear();
+		super.onPause();
+	}
+	
+	@Override
+	protected void onResume() {
+		for( PlaceData fetchPlace:placeData ){
+			if( fetchPlace.getType().equals( DATA_TYPE_FULL ) ){
+				URL mainPictureURL = null;
+				Bitmap imageBitmap = null;
+				try {
+					mainPictureURL = new URL( fetchPlace.getMainPictureURL() );
+				} catch (MalformedURLException e) {
+					e.printStackTrace();
+				}
+				
+				try {
+					imageBitmap = BitmapFactory.decodeStream( mainPictureURL.openConnection().getInputStream() );
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				
+				arrayImageItem.add( imageBitmap );
+			}
+		}
+		
+		this.runOnUiThread(new Runnable(){
+			public void run(){
+			//Set List Adapter
+			MyListAdapter fullMyListAdapter = new MyListAdapter();
+			fullMyListAdapter.setData( getApplicationContext(), sumArrayItemData, fullItemData.size(), shortItemData.size() );
+			listView1.setAdapter( fullMyListAdapter );
+		}});
+		super.onResume();
 	}
 }

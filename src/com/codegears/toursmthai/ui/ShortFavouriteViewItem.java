@@ -4,6 +4,7 @@ import com.codegears.toursmthai.R;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Typeface;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -33,6 +34,14 @@ public class ShortFavouriteViewItem extends LinearLayout {
 	
 	public void setItemURL( String setItemURL ){
 		itemURL = setItemURL;
+	}
+	
+	public void setFontItemTitle( Typeface setTypeFace ){
+		itemTitle.setTypeface( setTypeFace );
+	}
+	
+	public void setFontItemDescriptionText( Typeface setTypeFace ){
+		itemDescriptionText.setTypeface( setTypeFace );
 	}
 	
 	public String getItemURL(){

@@ -23,6 +23,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -46,6 +47,7 @@ public class DetailScene extends Activity implements OnClickListener, NetworkThr
 	
 	private MyApp app;
 	private String placeId;
+	private String subCategoryId;
 	private ImageButton backButton;
 	private ImageButton homeButton;
 	private ImageButton addFavouriteButton;
@@ -70,6 +72,7 @@ public class DetailScene extends Activity implements OnClickListener, NetworkThr
 	private ArrayList<URL> detailImageURL;
 	private ArrayList<Bitmap> detailImage;
 	private ProgressDialog loadingDialog;
+	private ImageView detailImageIcon;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -79,7 +82,8 @@ public class DetailScene extends Activity implements OnClickListener, NetworkThr
 		loadingDialog = ProgressDialog.show(this, "", 
 	               "Loading. Please wait...", true);
 		
-		placeId = getIntent().getStringExtra( PUT_EXTRA_PLACE_ID ).toString();
+		subCategoryId = getIntent().getStringArrayExtra( PUT_EXTRA_PLACE_ID )[0].toString();
+		placeId = getIntent().getStringArrayExtra( PUT_EXTRA_PLACE_ID )[1].toString();
 		
 		app = (MyApp) getApplication();
 		detailImageURL = new ArrayList<URL>();
@@ -101,6 +105,13 @@ public class DetailScene extends Activity implements OnClickListener, NetworkThr
 		familyButton = (ImageButton) findViewById( R.id.detailFamilyMenuButton );
 		favouriteButton = (ImageButton) findViewById( R.id.detailFavouriteMenuButton );
 		addFavouriteButton = (ImageButton) findViewById( R.id.detailAddFavoriteButton );
+		placeName = (TextView) findViewById( R.id.detailPlaceName );
+		placeURL = (TextView) findViewById( R.id.detailPlaceURL );
+		detailWebView = (WebView) findViewById( R.id.detailWebView );
+		detailGallery = (Gallery) findViewById( R.id.detailGallery );
+		detailImageIcon = (ImageView) findViewById( R.id.detailImageIcon );
+		
+		placeURL.setTypeface( app.getTextLiberationFont() );
 		
 		backButton.setOnClickListener( this );
 		homeButton.setOnClickListener( this );
@@ -118,13 +129,46 @@ public class DetailScene extends Activity implements OnClickListener, NetworkThr
 		familyButton.setOnClickListener( this );
 		favouriteButton.setOnClickListener( this );
 		addFavouriteButton.setOnClickListener( this );
+		placeURL.setOnClickListener( this );
 		
-		placeName = (TextView) findViewById( R.id.detailPlaceName );
-		placeURL = (TextView) findViewById( R.id.detailPlaceURL );
-		detailWebView = (WebView) findViewById( R.id.detailWebView );
-		detailGallery = (Gallery) findViewById( R.id.detailGallery );
+		placeName.setTypeface( app.getTextListHeaderFont() );
 		
-		placeName.setTypeface( app.getTextFont() );
+		//Set detail icon
+		if( subCategoryId.equals( SubCategoryScene.CATEGORY_1_SUB_CATEGORY_2_ID ) ||
+			subCategoryId.equals( SubCategoryScene.CATEGORY_2_SUB_CATEGORY_1_ID ) ||
+			subCategoryId.equals( SubCategoryScene.CATEGORY_3_SUB_CATEGORY_1_ID ) || 
+			subCategoryId.equals( SubCategoryScene.CATEGORY_4_SUB_CATEGORY_1_ID ) || 
+			subCategoryId.equals( SubCategoryScene.CATEGORY_5_SUB_CATEGORY_1_ID ) || 
+			subCategoryId.equals( SubCategoryScene.CATEGORY_6_SUB_CATEGORY_1_ID ) || 
+			subCategoryId.equals( SubCategoryScene.CATEGORY_7_SUB_CATEGORY_1_ID ) || 
+			subCategoryId.equals( SubCategoryScene.CATEGORY_8_SUB_CATEGORY_1_ID ) ){
+			detailImageIcon.setImageResource( R.drawable.detail_accommodations );
+		}else if( subCategoryId.equals( SubCategoryScene.CATEGORY_1_SUB_CATEGORY_1_ID ) ||
+				  subCategoryId.equals( SubCategoryScene.CATEGORY_2_SUB_CATEGORY_2_ID ) ||
+				  subCategoryId.equals( SubCategoryScene.CATEGORY_3_SUB_CATEGORY_2_ID ) || 
+				  subCategoryId.equals( SubCategoryScene.CATEGORY_4_SUB_CATEGORY_2_ID ) || 
+				  subCategoryId.equals( SubCategoryScene.CATEGORY_5_SUB_CATEGORY_2_ID ) || 
+				  subCategoryId.equals( SubCategoryScene.CATEGORY_6_SUB_CATEGORY_2_ID ) || 
+				  subCategoryId.equals( SubCategoryScene.CATEGORY_7_SUB_CATEGORY_2_ID ) || 
+				  subCategoryId.equals( SubCategoryScene.CATEGORY_8_SUB_CATEGORY_2_ID ) ){
+			detailImageIcon.setImageResource( R.drawable.detail_restaurants );
+		}else if( subCategoryId.equals( SubCategoryScene.CATEGORY_1_SUB_CATEGORY_3_ID ) ||
+				  subCategoryId.equals( SubCategoryScene.CATEGORY_2_SUB_CATEGORY_3_ID ) ||
+				  subCategoryId.equals( SubCategoryScene.CATEGORY_3_SUB_CATEGORY_3_ID ) || 
+				  subCategoryId.equals( SubCategoryScene.CATEGORY_4_SUB_CATEGORY_3_ID ) || 
+				  subCategoryId.equals( SubCategoryScene.CATEGORY_5_SUB_CATEGORY_3_ID ) || 
+				  subCategoryId.equals( SubCategoryScene.CATEGORY_6_SUB_CATEGORY_3_ID ) || 
+				  subCategoryId.equals( SubCategoryScene.CATEGORY_7_SUB_CATEGORY_3_ID ) || 
+				  subCategoryId.equals( SubCategoryScene.CATEGORY_8_SUB_CATEGORY_3_ID ) ){
+			detailImageIcon.setImageResource( R.drawable.detail_things_to_do );
+		}else if( subCategoryId.equals( SubCategoryScene.CATEGORY_2_SUB_CATEGORY_4_ID ) || 
+				  subCategoryId.equals( SubCategoryScene.CATEGORY_4_SUB_CATEGORY_4_ID ) || 
+				  subCategoryId.equals( SubCategoryScene.CATEGORY_5_SUB_CATEGORY_4_ID ) || 
+				  subCategoryId.equals( SubCategoryScene.CATEGORY_6_SUB_CATEGORY_4_ID ) || 
+				  subCategoryId.equals( SubCategoryScene.CATEGORY_7_SUB_CATEGORY_4_ID ) || 
+				  subCategoryId.equals( SubCategoryScene.CATEGORY_8_SUB_CATEGORY_4_ID ) ){
+			detailImageIcon.setImageResource( R.drawable.detail_attractions );
+		}
 		
 		HashMap< String, String > dataMap = new HashMap<String, String>();
 		dataMap.put( "place_id", placeId );
@@ -208,6 +252,16 @@ public class DetailScene extends Activity implements OnClickListener, NetworkThr
 			Intent newIntent = new Intent( this, ListScene.class );
 			newIntent.putExtra( ListScene.PUT_EXTRA_FAVOURITE_SCENE, ListScene.FAVOURITE_SCENE );
 			startActivity( newIntent );
+		}else if ( v.equals( placeURL ) ){
+			TextView newTextView = (TextView) v;
+			String itemUrl = newTextView.getText().toString();
+			
+			if (!itemUrl.startsWith("http://") && !itemUrl.startsWith("https://")){
+				itemUrl = "http://" + itemUrl;
+			}
+			
+			Intent newIntent = new Intent(Intent.ACTION_VIEW, Uri.parse( itemUrl ));
+			startActivity( newIntent );
 		}
 	}
 
@@ -219,6 +273,11 @@ public class DetailScene extends Activity implements OnClickListener, NetworkThr
 		this.runOnUiThread( new Runnable() {
 			@Override
 			public void run() {
+				//Show/NotShwow hotdeal icon
+				if( placeData.getHotDeal().size() > 0 ){
+					hotDealButton.setVisibility( View.VISIBLE );
+				}
+				
 				placeName.setText( placeData.getTitle() );
 				placeURL.setText( placeData.getURL() );
 			}
@@ -308,4 +367,5 @@ public class DetailScene extends Activity implements OnClickListener, NetworkThr
 	public void onNetworkFail(String urlString) {
 		
 	}
+
 }
