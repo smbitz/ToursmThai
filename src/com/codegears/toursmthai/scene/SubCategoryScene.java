@@ -62,6 +62,7 @@ public class SubCategoryScene extends Activity implements OnClickListener {
 	public static final String CATEGORY_8_SUB_CATEGORY_2_ID = "82";
 	public static final String CATEGORY_8_SUB_CATEGORY_3_ID = "83";
 	public static final String CATEGORY_8_SUB_CATEGORY_4_ID = "84";
+	public static final String CATEGORY_9_SUB_CATEGORY_1_ID = "91";
 	
 	public static final String PUT_EXTRA_CATEGORY_ID = "PUT_EXTRA_CATEGORY_ID";
 	public static final String PUT_EXTRA_SUB_CATEGORY_ID = "PUT_EXTRA_SUB_CATEGORY_ID";

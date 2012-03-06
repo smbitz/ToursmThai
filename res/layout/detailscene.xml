@@ -561,7 +561,7 @@
 
                                     <LinearLayout
                                         android:id="@+id/LinearLayout02"
-                                        android:layout_width="20dp"
+                                        android:layout_width="23dp"
                                         android:layout_height="match_parent" >
                                     </LinearLayout>
 
@@ -603,7 +603,7 @@
 
                                     <LinearLayout
                                         android:id="@+id/linearLayout4"
-                                        android:layout_width="20dp"
+                                        android:layout_width="23dp"
                                         android:layout_height="match_parent" >
                                     </LinearLayout>
 
@@ -645,7 +645,7 @@
 
                                     <LinearLayout
                                         android:id="@+id/linearLayout16"
-                                        android:layout_width="20dp"
+                                        android:layout_width="23dp"
                                         android:layout_height="match_parent" >
                                     </LinearLayout>
 
@@ -687,7 +687,7 @@
 
                                     <LinearLayout
                                         android:id="@+id/linearLayout35"
-                                        android:layout_width="20dp"
+                                        android:layout_width="23dp"
                                         android:layout_height="match_parent" >
                                     </LinearLayout>
 
@@ -729,7 +729,7 @@
 
                                     <LinearLayout
                                         android:id="@+id/linearLayout45"
-                                        android:layout_width="20dp"
+                                        android:layout_width="23dp"
                                         android:layout_height="match_parent"
                                         android:orientation="horizontal" >
                                     </LinearLayout>
@@ -755,7 +755,7 @@
                                             android:layout_gravity="center"
                                             android:layout_weight="1"
                                             android:background="@null"
-                                            android:src="@drawable/icon_chic" />
+                                            android:src="@drawable/icon_adventure" />
 
                                         <TextView
                                             android:id="@+id/TextView04"
@@ -771,7 +771,7 @@
 
                                     <LinearLayout
                                         android:id="@+id/linearLayout46"
-                                        android:layout_width="20dp"
+                                        android:layout_width="23dp"
                                         android:layout_height="match_parent" >
                                     </LinearLayout>
 
@@ -797,7 +797,7 @@
                                             android:layout_gravity="center"
                                             android:layout_weight="1"
                                             android:background="@null"
-                                            android:src="@drawable/icon_slow" />
+                                            android:src="@drawable/icon_easy_slow" />
 
                                         <TextView
                                             android:id="@+id/TextView05"
@@ -813,7 +813,7 @@
 
                                     <LinearLayout
                                         android:id="@+id/linearLayout47"
-                                        android:layout_width="20dp"
+                                        android:layout_width="23dp"
                                         android:layout_height="wrap_content" >
                                     </LinearLayout>
 
@@ -838,7 +838,7 @@
                                             android:layout_gravity="center"
                                             android:layout_weight="1"
                                             android:background="@null"
-                                            android:src="@drawable/icon_chic" />
+                                            android:src="@drawable/icon_breezy" />
 
                                         <TextView
                                             android:id="@+id/TextView06"
@@ -854,7 +854,7 @@
 
                                     <LinearLayout
                                         android:id="@+id/LinearLayout04"
-                                        android:layout_width="20dp"
+                                        android:layout_width="23dp"
                                         android:layout_height="match_parent" >
                                     </LinearLayout>
 
@@ -879,7 +879,7 @@
                                             android:layout_gravity="center"
                                             android:layout_weight="1"
                                             android:background="@null"
-                                            android:src="@drawable/icon_chic" />
+                                            android:src="@drawable/icon_family" />
 
                                         <TextView
                                             android:id="@+id/TextView07"
@@ -895,7 +895,7 @@
 
                                     <LinearLayout
                                         android:id="@+id/LinearLayout10"
-                                        android:layout_width="20dp"
+                                        android:layout_width="23dp"
                                         android:layout_height="match_parent" >
                                     </LinearLayout>
 
@@ -920,7 +920,7 @@
                                             android:layout_gravity="center"
                                             android:layout_weight="1"
                                             android:background="@null"
-                                            android:src="@drawable/icon_chic" />
+                                            android:src="@drawable/icon_favourite" />
 
                                         <TextView
                                             android:id="@+id/TextView08"
@@ -936,7 +936,7 @@
 
                                     <LinearLayout
                                         android:id="@+id/LinearLayout11"
-                                        android:layout_width="20dp"
+                                        android:layout_width="23dp"
                                         android:layout_height="match_parent" >
                                     </LinearLayout>
                                 </LinearLayout>

@@ -97,6 +97,7 @@ public class ListScene extends Activity implements NetworkThreadListener, OnClic
 	private LinearLayout listLayoutDotHeader2;
 	private LinearLayout listLayoutFavouriteButton;
 	private ProgressDialog loadingDialog;
+	private ProgressDialog loadingDialog2;
 	private ImageView imageHeader;
 	private ArrayList<Bitmap> arrayImageItem;
 	private ArrayList<PlaceData> fullItemData;
@@ -251,6 +252,7 @@ public class ListScene extends Activity implements NetworkThreadListener, OnClic
 					favouriteSubCategoryData.add( newSubCategoryData );
 				}
 			}*/
+			subCategoryId = SubCategoryScene.CATEGORY_9_SUB_CATEGORY_1_ID;
 			
 			//Favourite Place Data
 			SharedPreferences sharedPlacePreferences = getSharedPreferences( APP_FAVOURITE, 0);
@@ -310,29 +312,46 @@ public class ListScene extends Activity implements NetworkThreadListener, OnClic
 			}
 			
 			this.runOnUiThread(new Runnable(){
-				public void run(){
-				//Set List Adapter
-				MyListAdapter fullMyListAdapter = new MyListAdapter();
-				fullMyListAdapter.setData( getApplicationContext(), sumArrayItemData, fullItemData.size(), shortItemData.size() );
-				listView1.setAdapter( fullMyListAdapter );
-				loadingDialog.dismiss();
+					public void run(){
+						//Set List Adapter
+						MyListAdapter fullMyListAdapter = new MyListAdapter();
+						fullMyListAdapter.setData( getApplicationContext(), sumArrayItemData, fullItemData.size(), shortItemData.size() );
+						listView1.setAdapter( fullMyListAdapter );
+						loadingDialog.dismiss();
 			}});
 		
 		}else{
+			URL mainPictureURL = null;
+			Bitmap imageBitmap = null;
 			NodeList fetchXml = document.getDocumentElement().getElementsByTagName( "place" );
 			for(int i = 0; i < fetchXml.getLength(); i++){
 				PlaceData newPlaceData = new PlaceData();
 				newPlaceData.setDataFromXmlNode( fetchXml.item(i) );
+				placeData.add( newPlaceData );
+
+				try {
+					mainPictureURL = new URL( newPlaceData.getMainPictureURL() );
+				} catch (MalformedURLException e) {
+					e.printStackTrace();
+				}
+				
+				try {
+					imageBitmap = BitmapFactory.decodeStream( mainPictureURL.openConnection().getInputStream() );
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				
+				arrayImageItem.add( imageBitmap );
 				favouritePlaceData.add( newPlaceData );
 			}
 			
-			//Set Favourite Adapter
 			this.runOnUiThread(new Runnable(){
-				public void run(){
-					MyListAdapter fullMyListAdapter = new MyListAdapter();
-					fullMyListAdapter.setDataFavourite( getApplicationContext(), favouritePlaceData );
-					listView1.setAdapter( fullMyListAdapter );
-					loadingDialog.dismiss();
+					public void run(){
+						//Set Favourite Adapter
+						MyListAdapter fullMyListAdapter = new MyListAdapter();
+						fullMyListAdapter.setDataFavourite( getApplicationContext(), favouritePlaceData );
+						listView1.setAdapter( fullMyListAdapter );
+						loadingDialog.dismiss();
 			}});
 		}
 		
@@ -584,11 +603,13 @@ public class ListScene extends Activity implements NetworkThreadListener, OnClic
 					newLayout.addView( newShortItem );
 				}
 			}else{
-				//Header
-				ListTextHeader newText = new ListTextHeader( context );
-				newText.setTextHeader( "Favourite Place" );
-				newText.setTextFont( app.getTextListHeaderFont() );
-				newLayout.addView( newText );
+				if( favouritePlaceData.size() > 0 && position == 0 ){
+					//Header
+					ListTextHeader newText = new ListTextHeader( context );
+					newText.setTextHeader( "Favourite Place" );
+					newText.setTextFont( app.getTextListHeaderFont() );
+					newLayout.addView( newText );
+				}
 				
 				//If favourite set all full view item
 				FullFavouriteViewItem newFullItem = new FullFavouriteViewItem( context );
@@ -596,6 +617,7 @@ public class ListScene extends Activity implements NetworkThreadListener, OnClic
 				newFullItem.setItemURLText( itemURLText );
 				newFullItem.setItemDescriptionText( itemDescriptionText );
 				newFullItem.setItemId( itemId );
+				newFullItem.setItemName( itemTitle );
 				newFullItem.setOnClickListener( ListScene.this );
 				
 				newLayout.addView( newFullItem );
@@ -700,33 +722,76 @@ public class ListScene extends Activity implements NetworkThreadListener, OnClic
 	
 	@Override
 	protected void onResume() {
-		for( PlaceData fetchPlace:placeData ){
-			if( fetchPlace.getType().equals( DATA_TYPE_FULL ) ){
-				URL mainPictureURL = null;
-				Bitmap imageBitmap = null;
-				try {
-					mainPictureURL = new URL( fetchPlace.getMainPictureURL() );
-				} catch (MalformedURLException e) {
-					e.printStackTrace();
-				}
-				
-				try {
-					imageBitmap = BitmapFactory.decodeStream( mainPictureURL.openConnection().getInputStream() );
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-				
-				arrayImageItem.add( imageBitmap );
-			}
-		}
+		loadingDialog2 = ProgressDialog.show(this, "", 
+	               "Loading. Please wait...", true);
 		
-		this.runOnUiThread(new Runnable(){
-			public void run(){
-			//Set List Adapter
-			MyListAdapter fullMyListAdapter = new MyListAdapter();
-			fullMyListAdapter.setData( getApplicationContext(), sumArrayItemData, fullItemData.size(), shortItemData.size() );
-			listView1.setAdapter( fullMyListAdapter );
-		}});
+		new Thread( new Runnable() {
+			@Override
+			public void run() {
+				if( callFavourite == null ){
+					for( PlaceData fetchPlace:placeData ){
+						if( fetchPlace.getType().equals( DATA_TYPE_FULL ) ){
+							URL mainPictureURL = null;
+							Bitmap imageBitmap = null;
+							try {
+								mainPictureURL = new URL( fetchPlace.getMainPictureURL() );
+							} catch (MalformedURLException e) {
+								e.printStackTrace();
+							}
+							
+							try {
+								imageBitmap = BitmapFactory.decodeStream( mainPictureURL.openConnection().getInputStream() );
+							} catch (IOException e) {
+								e.printStackTrace();
+							}
+							
+							arrayImageItem.add( imageBitmap );
+						}
+					}
+					
+					ListScene.this.runOnUiThread( new Runnable() {
+						@Override
+						public void run() {
+							//Set List Adapter
+							MyListAdapter fullMyListAdapter = new MyListAdapter();
+							fullMyListAdapter.setData( getApplicationContext(), sumArrayItemData, fullItemData.size(), shortItemData.size() );
+							listView1.setAdapter( fullMyListAdapter );
+							loadingDialog2.dismiss();
+						}
+					});
+				}else{
+					for( PlaceData fetchPlace:favouritePlaceData ){
+						URL mainPictureURL = null;
+						Bitmap imageBitmap = null;
+						try {
+							mainPictureURL = new URL( fetchPlace.getMainPictureURL() );
+						} catch (MalformedURLException e) {
+							e.printStackTrace();
+						}
+						
+						try {
+							imageBitmap = BitmapFactory.decodeStream( mainPictureURL.openConnection().getInputStream() );
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+						
+						arrayImageItem.add( imageBitmap );
+					}
+					
+					ListScene.this.runOnUiThread( new Runnable() {
+						@Override
+						public void run() {
+							//Set List Adapter
+							MyListAdapter fullMyListAdapter = new MyListAdapter();
+							fullMyListAdapter.setDataFavourite( getApplicationContext(), favouritePlaceData );
+							listView1.setAdapter( fullMyListAdapter );
+							loadingDialog2.dismiss();
+						}
+					});
+				}
+			}
+		}).start();
 		super.onResume();
 	}
+
 }
