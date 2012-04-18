@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="URL_GET_PLACE_BY_SUB_CATEGORY" value="http://www.freehand.in.th/tourismthai/get_place_by_subcategory.php" />
-    <string name="URL_GET_DETAIL" value="http://www.freehand.in.th/tourismthai/get_detail.php" />
-    <string name="URL_GET_PLACE_BY_ID" value="http://www.freehand.in.th/tourismthai/get_place_by_id.php" />
-    <string name="URL_GET_PLACE_BY_GROUP" value="http://www.freehand.in.th/tourismthai/get_place_by_group.php" />
-    <string name="URL_GET_CATEGORY" value="http://www.freehand.in.th/tourismthai/get_category_structure.xml" />
+    <string name="URL_GET_PLACE_BY_SUB_CATEGORY" value="http://61.47.2.181/tourismthai/get_place_by_subcategory.php" />
+    <string name="URL_GET_DETAIL" value="http://61.47.2.181/tourismthai/get_detail.php" />
+    <string name="URL_GET_PLACE_BY_ID" value="http://61.47.2.181/tourismthai/get_place_by_id.php" />
+    <string name="URL_GET_PLACE_BY_GROUP" value="http://61.47.2.181/tourismthai/get_place_by_group.php" />
+    <string name="URL_GET_CATEGORY" value="http://61.47.2.181/tourismthai/get_category_structure.xml" />
 </resources>

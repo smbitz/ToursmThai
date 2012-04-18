@@ -15,4 +15,16 @@ public class HotDealData {
 		picture = node.getAttributes().getNamedItem( "picture" ).getNodeValue();
 		description = node.getAttributes().getNamedItem( "description" ).getNodeValue();
 	}
+	
+	public String getTitle(){
+		return this.title;
+	}
+	
+	public String getDescription(){
+		return this.description;
+	}
+	
+	public String getImageURL(){
+		return this.picture;
+	}
 }

@@ -73,6 +73,14 @@ public class PlaceData {
 		return this.type;
 	}
 	
+	public String getLatitude(){
+		return this.latitude;
+	}
+	
+	public String getLongitude(){
+		return this.longitude;
+	}
+	
 	public ArrayList<HotDealData> getHotDeal(){
 		return this.hotDeal;
 	}

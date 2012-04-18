@@ -81,6 +81,7 @@ public class ListScene extends Activity implements NetworkThreadListener, OnClic
 	private ImageButton seaBreezeButton;
 	private ImageButton familyButton;
 	private ImageButton favouriteButton;
+	private ImageButton view360Button;
 	private Object callFavourite;
 	private ArrayList<PlaceData> favouritePlaceData;
 	private ArrayList<CategoryData> favouriteCategoryData;
@@ -103,6 +104,7 @@ public class ListScene extends Activity implements NetworkThreadListener, OnClic
 	private ArrayList<PlaceData> fullItemData;
 	private ArrayList<PlaceData> shortItemData;
 	private ArrayList<PlaceData> sumArrayItemData;
+	private TextView sorryText;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -138,9 +140,11 @@ public class ListScene extends Activity implements NetworkThreadListener, OnClic
 		familyButton = (ImageButton) findViewById( R.id.listFamilyMenuButton );
 		favouriteButton = (ImageButton) findViewById( R.id.listFavouriteMenuButton );
 		addFavouriteButton = (ImageButton) findViewById( R.id.listAddFavoriteButton );
+		view360Button = (ImageButton) findViewById( R.id.list360ViewButton );
 		listItemLayout1 = (LinearLayout) findViewById( R.id.listItemlinearLayout1 );
 		listLayoutFavouriteButton = (LinearLayout) findViewById( R.id.listLayoutFavouriteButton );
 		imageHeader = (ImageView) findViewById( R.id.listImageHeader );
+		sorryText = (TextView) findViewById( R.id.listViewNoDataText );
 		
 		backButton.setOnClickListener( this );
 		homeButton.setOnClickListener( this );
@@ -154,6 +158,7 @@ public class ListScene extends Activity implements NetworkThreadListener, OnClic
 		familyButton.setOnClickListener( this );
 		favouriteButton.setOnClickListener( this );
 		addFavouriteButton.setOnClickListener( this );
+		view360Button.setOnClickListener( this );
 		
 		//If ListView
 		if( callFavourite == null ){
@@ -254,6 +259,9 @@ public class ListScene extends Activity implements NetworkThreadListener, OnClic
 			}*/
 			subCategoryId = SubCategoryScene.CATEGORY_9_SUB_CATEGORY_1_ID;
 			
+			//Set Image Header
+			imageHeader.setImageResource( R.drawable.toppic_favourite );
+			
 			//Favourite Place Data
 			SharedPreferences sharedPlacePreferences = getSharedPreferences( APP_FAVOURITE, 0);
 			String getPlaceFavourite = sharedPlacePreferences.getString( DetailScene.FAVOURITE_PLACE, "");
@@ -268,14 +276,17 @@ public class ListScene extends Activity implements NetworkThreadListener, OnClic
 						postData, this );
 			}else{
 				loadingDialog.dismiss();
+				
+				//If no data.
+				if( favouritePlaceData.size() == 0 ){
+					sorryText.setVisibility( View.VISIBLE );
+				}
 			}
 		}
 	}
 	
 	private void onXmlComplete( Document document ){
 		if( callFavourite == null ){
-			URL mainPictureURL = null;
-			Bitmap imageBitmap = null;
 			NodeList fetchXml = document.getDocumentElement().getElementsByTagName( "place" );
 			for(int i = 0; i < fetchXml.getLength(); i++){
 				PlaceData newPlaceData = new PlaceData();
@@ -283,8 +294,10 @@ public class ListScene extends Activity implements NetworkThreadListener, OnClic
 				placeData.add( newPlaceData );
 				
 				if( newPlaceData.getType().equals( DATA_TYPE_FULL ) ){
+					URL mainPictureURL = null;
+					Bitmap imageBitmap = null;
 					try {
-						mainPictureURL = new URL( newPlaceData.getMainPictureURL() );
+						mainPictureURL = new URL( newPlaceData.getMainPictureURL().replace( " ", "%20" ) );
 					} catch (MalformedURLException e) {
 						e.printStackTrace();
 					}
@@ -321,16 +334,16 @@ public class ListScene extends Activity implements NetworkThreadListener, OnClic
 			}});
 		
 		}else{
-			URL mainPictureURL = null;
-			Bitmap imageBitmap = null;
 			NodeList fetchXml = document.getDocumentElement().getElementsByTagName( "place" );
 			for(int i = 0; i < fetchXml.getLength(); i++){
 				PlaceData newPlaceData = new PlaceData();
 				newPlaceData.setDataFromXmlNode( fetchXml.item(i) );
 				placeData.add( newPlaceData );
-
+				
+				URL mainPictureURL = null;
+				Bitmap imageBitmap = null;
 				try {
-					mainPictureURL = new URL( newPlaceData.getMainPictureURL() );
+					mainPictureURL = new URL( newPlaceData.getMainPictureURL().replace( " ", "%20" ) );
 				} catch (MalformedURLException e) {
 					e.printStackTrace();
 				}
@@ -631,6 +644,9 @@ public class ListScene extends Activity implements NetworkThreadListener, OnClic
 	public void onClick(View v) {
 		if( v.equals( backButton ) ){
 			finish();
+		}else if( v.equals( view360Button ) ){
+			Intent newIntent = new Intent( this, View360Scene.class );
+			startActivity( newIntent );
 		}else if( v.equals( homeButton ) ){
 			Intent newIntent = new Intent( this, CategoryScene.class );
 			startActivity( newIntent );
@@ -712,16 +728,19 @@ public class ListScene extends Activity implements NetworkThreadListener, OnClic
 	
 	@Override
 	protected void onPause() {
+		super.onPause();
 		listView1.setAdapter(null);
 		for( Bitmap fetchImage:arrayImageItem ){
-			fetchImage.recycle();
+			if( fetchImage != null ){
+				fetchImage.recycle();
+			}
 		}
 		arrayImageItem.clear();
-		super.onPause();
 	}
 	
 	@Override
 	protected void onResume() {
+		super.onResume();
 		loadingDialog2 = ProgressDialog.show(this, "", 
 	               "Loading. Please wait...", true);
 		
@@ -734,7 +753,7 @@ public class ListScene extends Activity implements NetworkThreadListener, OnClic
 							URL mainPictureURL = null;
 							Bitmap imageBitmap = null;
 							try {
-								mainPictureURL = new URL( fetchPlace.getMainPictureURL() );
+								mainPictureURL = new URL( fetchPlace.getMainPictureURL().replace( " ", "%20" ) );
 							} catch (MalformedURLException e) {
 								e.printStackTrace();
 							}
@@ -764,7 +783,7 @@ public class ListScene extends Activity implements NetworkThreadListener, OnClic
 						URL mainPictureURL = null;
 						Bitmap imageBitmap = null;
 						try {
-							mainPictureURL = new URL( fetchPlace.getMainPictureURL() );
+							mainPictureURL = new URL( fetchPlace.getMainPictureURL().replace( " ", "%20" ) );
 						} catch (MalformedURLException e) {
 							e.printStackTrace();
 						}
@@ -791,7 +810,6 @@ public class ListScene extends Activity implements NetworkThreadListener, OnClic
 				}
 			}
 		}).start();
-		super.onResume();
 	}
 
 }

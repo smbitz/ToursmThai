@@ -10,8 +10,13 @@ import com.codegears.toursmthai.data.CategoryManager;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.ScaleAnimation;
 import android.widget.Button;
 import android.widget.ImageButton;
 
@@ -62,6 +67,8 @@ public class CategoryScene extends Activity implements OnClickListener {
 
 	@Override
 	public void onClick(View v) {
+		Animation buttonScale = AnimationUtils.loadAnimation( this.getApplicationContext(), R.anim.scale );
+		v.startAnimation( buttonScale );
 		if( v.equals( categoryButton1 ) ){
 			Intent newIntent = new Intent( this, SubCategoryScene.class );
 			newIntent.putExtra( SubCategoryScene.PUT_EXTRA_CATEGORY_ID, SubCategoryScene.CATEGORY_MENU_1 );

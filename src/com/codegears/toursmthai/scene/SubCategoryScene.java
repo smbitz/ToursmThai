@@ -236,7 +236,9 @@ public class SubCategoryScene extends Activity implements OnClickListener {
 		if( v.equals( backButton ) ){
 			finish();
 		}else if( v.equals( view360Button ) ){
-			
+			Intent newIntent = new Intent( this, View360Scene.class );
+			newIntent.putExtra(  View360Scene.PUT_EXTRA_VIEW_360, categoryId );
+			startActivity( newIntent );
 		}else if( v.equals( homeButton ) ){
 			Intent newIntent = new Intent( this, CategoryScene.class );
 			startActivity( newIntent );

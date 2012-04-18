@@ -13,8 +13,14 @@ import com.codegears.toursmthai.MyApp;
 import com.codegears.toursmthai.R;
 import com.codegears.toursmthai.data.PlaceData;
 import com.codegears.toursmthai.util.NetworkThreadUtil;
+import com.codegears.toursmthai.util.TwitterApp;
 import com.codegears.toursmthai.util.NetworkThreadUtil.NetworkThreadListener;
+import com.codegears.toursmthai.util.TwitterApp.TwDialogListener;
 import com.codegears.toursmthai.util.NetworkUtil;
+import com.facebook.android.DialogError;
+import com.facebook.android.Facebook;
+import com.facebook.android.FacebookError;
+import com.facebook.android.Facebook.DialogListener;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -40,7 +46,7 @@ import android.widget.Toast;
 public class DetailScene extends Activity implements OnClickListener, NetworkThreadListener {
 	
 	public static final String PUT_EXTRA_PLACE_ID = "PUT_EXTRA_PLACE_ID";
-	private static final String URL_GET_PLACE_BY_ID = "URL_GET_PLACE_BY_ID";
+	public static final String URL_GET_PLACE_BY_ID = "URL_GET_PLACE_BY_ID";
 	private static final String URL_GET_DETAIL = "URL_GET_DETAIL";
 	public static final String APP_FAVOURITE = "APP_FAVOURITE";
 	public static final String FAVOURITE_PLACE = "FAVOURITE_PLACE";
@@ -64,6 +70,7 @@ public class DetailScene extends Activity implements OnClickListener, NetworkThr
 	private ImageButton seaBreezeButton;
 	private ImageButton familyButton;
 	private ImageButton favouriteButton;
+	private ImageButton view360Button;
 	private TextView placeName;
 	private TextView placeURL;
 	private PlaceData placeData;
@@ -73,6 +80,8 @@ public class DetailScene extends Activity implements OnClickListener, NetworkThr
 	private ArrayList<Bitmap> detailImage;
 	private ProgressDialog loadingDialog;
 	private ImageView detailImageIcon;
+	private Facebook facebook;
+	private TwitterApp mTwitter;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -88,6 +97,7 @@ public class DetailScene extends Activity implements OnClickListener, NetworkThr
 		app = (MyApp) getApplication();
 		detailImageURL = new ArrayList<URL>();
 		detailImage = new ArrayList<Bitmap>();
+		facebook = new Facebook( MyApp.FACEBOOK_APP_ID );
 		
 		backButton = (ImageButton) findViewById( R.id.detailBackButton );
 		homeButton = (ImageButton) findViewById( R.id.detailHomeButton );
@@ -105,6 +115,7 @@ public class DetailScene extends Activity implements OnClickListener, NetworkThr
 		familyButton = (ImageButton) findViewById( R.id.detailFamilyMenuButton );
 		favouriteButton = (ImageButton) findViewById( R.id.detailFavouriteMenuButton );
 		addFavouriteButton = (ImageButton) findViewById( R.id.detailAddFavoriteButton );
+		view360Button = (ImageButton) findViewById( R.id.detail360ViewButton );
 		placeName = (TextView) findViewById( R.id.detailPlaceName );
 		placeURL = (TextView) findViewById( R.id.detailPlaceURL );
 		detailWebView = (WebView) findViewById( R.id.detailWebView );
@@ -130,6 +141,7 @@ public class DetailScene extends Activity implements OnClickListener, NetworkThr
 		favouriteButton.setOnClickListener( this );
 		addFavouriteButton.setOnClickListener( this );
 		placeURL.setOnClickListener( this );
+		view360Button.setOnClickListener( this );
 		
 		placeName.setTypeface( app.getTextListHeaderFont() );
 		
@@ -170,6 +182,10 @@ public class DetailScene extends Activity implements OnClickListener, NetworkThr
 			detailImageIcon.setImageResource( R.drawable.detail_attractions );
 		}
 		
+		//Set twitter button
+		mTwitter = new TwitterApp(this, MyApp.TWITTER_CONSUMER_KEY, MyApp.TWITTER_SECRET_KEY);
+		mTwitter.setListener(mTwLoginDialogListener);
+		
 		HashMap< String, String > dataMap = new HashMap<String, String>();
 		dataMap.put( "place_id", placeId );
 		String postData = NetworkUtil.createPostData( dataMap );
@@ -184,6 +200,9 @@ public class DetailScene extends Activity implements OnClickListener, NetworkThr
 	public void onClick(View v) {
 		if( v.equals( backButton ) ){
 			finish();
+		}else if( v.equals( view360Button ) ){
+			Intent newIntent = new Intent( this, View360Scene.class );
+			startActivity( newIntent );
 		}else if( v.equals( homeButton ) ){
 			Intent newIntent = new Intent( this, CategoryScene.class );
 			startActivity( newIntent );
@@ -209,13 +228,41 @@ public class DetailScene extends Activity implements OnClickListener, NetworkThr
 		    editor.putString(  FAVOURITE_PLACE, getFavourite );
 		    editor.commit();
 		}else if( v.equals( hotDealButton ) ){
-			
+			Intent newIntent = new Intent( this, HotDealScene.class );
+			String newArrayExtra[] = { subCategoryId, placeId };
+			newIntent.putExtra( HotDealScene.PUT_HOT_DEAL_EXTRA, newArrayExtra );
+			startActivity( newIntent );
 		}else if( v.equals( mapButton ) ){
-			
+			Intent newIntent = new Intent( this, MapScene.class );
+			String newArrayExtra[] = { placeData.getLatitude(), placeData.getLongitude() };
+			//String newArrayExtra[] = { String.valueOf( 13.744949 ), String.valueOf( 100.53011 ) };
+			newIntent.putExtra( MapScene.PUT_MAP_EXTRA, newArrayExtra );
+			startActivity( newIntent );
 		}else if( v.equals( facebookButton ) ){
+			Bundle parameters = new Bundle();
+			parameters.putString("app_id", MyApp.FACEBOOK_APP_ID);
+			parameters.putString("link", placeData.getURL() );
+			parameters.putString("name", placeData.getTitle() );
+			parameters.putString("picture", detailImageURL.get(0).toString() );
+			parameters.putString("caption", placeData.getTitle());
+			parameters.putString("description", placeData.getDescription() );
 			
+			facebook.dialog(this, "feed", parameters, new DialogListener() {
+				@Override
+				public void onFacebookError(FacebookError e) {}
+				
+				@Override
+				public void onError(DialogError e) {}
+				
+				@Override
+				public void onComplete(Bundle values) {}
+				
+				@Override
+				public void onCancel() {}
+			});
 		}else if( v.equals( twitterButton ) ){
-			
+			mTwitter.resetAccessToken();
+			mTwitter.authorize();
 		}else if( v.equals( chicButton ) ){
 			Intent newIntent = new Intent( this, SubCategoryScene.class );
 			newIntent.putExtra( SubCategoryScene.PUT_EXTRA_CATEGORY_ID, SubCategoryScene.CATEGORY_MENU_1 );
@@ -256,18 +303,20 @@ public class DetailScene extends Activity implements OnClickListener, NetworkThr
 			TextView newTextView = (TextView) v;
 			String itemUrl = newTextView.getText().toString();
 			
-			if (!itemUrl.startsWith("http://") && !itemUrl.startsWith("https://")){
-				itemUrl = "http://" + itemUrl;
+			if( !itemUrl.equals("")&&!itemUrl.equals("-") ){
+				if (!itemUrl.startsWith("http://") && !itemUrl.startsWith("https://")){
+					itemUrl = "http://" + itemUrl;
+				}
+				
+				Intent newIntent = new Intent(Intent.ACTION_VIEW, Uri.parse( itemUrl ));
+				startActivity( newIntent );
 			}
-			
-			Intent newIntent = new Intent(Intent.ACTION_VIEW, Uri.parse( itemUrl ));
-			startActivity( newIntent );
 		}
 	}
 
 	private void onXmlComplete( Document document ){
 		NodeList fetchXml = document.getDocumentElement().getElementsByTagName( "place" );
-		final PlaceData placeData = new PlaceData();
+		placeData = new PlaceData();
 		placeData.setDataFromXmlNode( fetchXml.item(0) );
 		
 		this.runOnUiThread( new Runnable() {
@@ -280,6 +329,14 @@ public class DetailScene extends Activity implements OnClickListener, NetworkThr
 				
 				placeName.setText( placeData.getTitle() );
 				placeURL.setText( placeData.getURL() );
+				
+				//Chech map lat, long value
+				try{
+					Double.valueOf( placeData.getLatitude() );
+					Double.valueOf( placeData.getLongitude() );
+				}catch( Exception e ){
+					mapButton.setVisibility( View.INVISIBLE );
+				}
 			}
 		});
 		
@@ -287,7 +344,7 @@ public class DetailScene extends Activity implements OnClickListener, NetworkThr
 		
 		for( String fetchURL:imageURLSplit ){
 			try {
-				URL newURL = new URL( fetchURL );
+				URL newURL = new URL( fetchURL.replace( " ", "%20" ) );
 				detailImageURL.add( newURL );
 			} catch (MalformedURLException e) {
 				e.printStackTrace();
@@ -367,5 +424,24 @@ public class DetailScene extends Activity implements OnClickListener, NetworkThr
 	public void onNetworkFail(String urlString) {
 		
 	}
+	
+	private final TwDialogListener mTwLoginDialogListener = new TwDialogListener() {
+		@Override
+		public void onComplete(String value) {
+			/*String username = mTwitter.getUsername();
+			username		= (username.equals("")) ? "No Name" : username;
+			
+			//Toast.makeText(WelcomeScene2.this, "Connected to Twitter as " + username, Toast.LENGTH_LONG).show();*/
+			
+			Intent newIntent = new Intent( DetailScene.this, TwitterScene.class );
+			newIntent.putExtra(TwitterScene.PUT_EXTRA_TWITTER, placeData.getTitle());
+			startActivity( newIntent );
+		}
+		
+		@Override
+		public void onError(String value) {
+			//Toast.makeText(WelcomeScene2.this, "Twitter connection failed : "+value, Toast.LENGTH_LONG).show();
+		}
+	};
 
 }

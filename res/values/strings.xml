@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="hello">Hello World, ToursmThaiActivity!</string>
-    <string name="app_name">Life Style Thailand</string>
+    <string name="hello">Hello World, TourismThaiActivity!</string>
+    <string name="app_name">Lifestyle Thailand</string>
 
 </resources>

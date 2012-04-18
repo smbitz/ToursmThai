@@ -65,7 +65,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:background="@null"
-                            android:src="@drawable/chic" android:scaleType="fitCenter"/>
+                            android:src="@drawable/chic" android:scaleType="fitCenter" android:layout_marginBottom="2dp" android:layout_marginLeft="2dp" android:layout_marginRight="2dp" android:layout_marginTop="2dp"/>
 
                         <LinearLayout
                             android:id="@+id/linearLayout8"
@@ -163,7 +163,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:background="@null"
-                            android:src="@drawable/thainess" android:scaleType="fitCenter"/>
+                            android:src="@drawable/thainess" android:scaleType="fitCenter" android:layout_marginBottom="2dp" android:layout_marginLeft="2dp" android:layout_marginRight="2dp" android:layout_marginTop="2dp"/>
 
                         <LinearLayout
                             android:id="@+id/LinearLayout08"
@@ -262,7 +262,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:background="@null"
-                            android:src="@drawable/wellness" android:scaleType="fitCenter"/>
+                            android:src="@drawable/wellness" android:scaleType="fitCenter" android:layout_marginBottom="6dp" android:layout_marginLeft="6dp" android:layout_marginRight="6dp" android:layout_marginTop="6dp"/>
 
                         <LinearLayout
                             android:id="@+id/LinearLayout20"
@@ -360,7 +360,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:background="@null"
-                            android:src="@drawable/romantic" android:scaleType="fitCenter"/>
+                            android:src="@drawable/romantic" android:scaleType="fitCenter" android:layout_marginBottom="3dp" android:layout_marginLeft="3dp" android:layout_marginRight="3dp" android:layout_marginTop="3dp"/>
 
                         <LinearLayout
                             android:id="@+id/LinearLayout26"
@@ -458,7 +458,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:background="@null"
-                            android:src="@drawable/adventure" android:scaleType="fitCenter"/>
+                            android:src="@drawable/adventure" android:scaleType="fitCenter" android:layout_marginBottom="7dp" android:layout_marginLeft="7dp" android:layout_marginRight="7dp" android:layout_marginTop="7dp"/>
 
                         <LinearLayout
                             android:id="@+id/LinearLayout43"
@@ -555,7 +555,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:background="@null"
-                            android:src="@drawable/easy_slow" android:scaleType="fitCenter"/>
+                            android:src="@drawable/easy_slow" android:scaleType="fitCenter" android:layout_marginBottom="6dp" android:layout_marginLeft="6dp" android:layout_marginRight="6dp" android:layout_marginTop="6dp"/>
 
                         <LinearLayout
                             android:id="@+id/LinearLayout50"
@@ -652,7 +652,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:background="@null"
-                            android:src="@drawable/breezy" android:scaleType="fitCenter"/>
+                            android:src="@drawable/breezy" android:scaleType="fitCenter" android:layout_marginBottom="2dp" android:layout_marginLeft="2dp" android:layout_marginRight="2dp" android:layout_marginTop="2dp"/>
 
                         <LinearLayout
                             android:id="@+id/LinearLayout67"
@@ -749,7 +749,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:background="@null"
-                            android:src="@drawable/family" android:scaleType="fitCenter"/>
+                            android:src="@drawable/family" android:scaleType="fitCenter" android:layout_marginBottom="5dp" android:layout_marginLeft="5dp" android:layout_marginRight="5dp" android:layout_marginTop="5dp"/>
 
                         <LinearLayout
                             android:id="@+id/LinearLayout73"
@@ -876,7 +876,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@null"
-                    android:src="@drawable/favorite" />
+                    android:src="@drawable/favorite" android:layout_marginBottom="2dp" android:layout_marginLeft="2dp" android:layout_marginRight="2dp" android:layout_marginTop="2dp"/>
 
                 <LinearLayout
                     android:id="@+id/linearLayout89"

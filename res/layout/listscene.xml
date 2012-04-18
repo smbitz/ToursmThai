@@ -130,7 +130,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:background="@null"
-                                android:src="@drawable/view360_button" />
+                                android:src="@drawable/view360_button" android:visibility="invisible"/>
                         </LinearLayout>
 
                         <LinearLayout
@@ -219,25 +219,58 @@
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:orientation="vertical" >
+
                         </LinearLayout>
 
-                        <LinearLayout
-                            android:id="@+id/listItemlinearLayout1"
+                        <FrameLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_weight="0.1"
-                            android:orientation="vertical" >
+                            android:layout_weight="0.1" >
 
-                            <ListView
-                                android:id="@+id/listTopListView"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:divider="#ffffff"
-                                android:dividerHeight="7dp"
-                                android:fadingEdge="none" >
-                            </ListView>
-                        </LinearLayout>
+                            <LinearLayout
+                                android:id="@+id/listItemlinearLayout1"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="0.1"
+                                android:orientation="vertical" >
+
+                                <ListView
+                                    android:id="@+id/listTopListView"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:divider="#ffffff"
+                                    android:dividerHeight="7dp"
+                                    android:listSelector="#ffffff" android:fadingEdge="none">
+                                </ListView>
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="vertical" >
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical" android:layout_weight="1">
+                                </LinearLayout>
+
+                                <TextView
+                                    android:id="@+id/listViewNoDataText"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content" android:text="Sorry, no data." android:layout_gravity="center" android:visibility="invisible"/>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:orientation="vertical" >
+                                </LinearLayout>
+
+                            </LinearLayout>
+
+                        </FrameLayout>
 
                         <LinearLayout
                             android:id="@+id/linearLayout37"
@@ -246,6 +279,7 @@
                             android:layout_weight="1"
                             android:orientation="vertical" >
                         </LinearLayout>
+
                     </LinearLayout>
 
                     <LinearLayout

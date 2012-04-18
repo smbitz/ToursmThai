@@ -4,27 +4,54 @@
     android:versionCode="1"
     android:versionName="1.0" >
 
-    <uses-sdk android:minSdkVersion="8" />
+    <uses-sdk android:minSdkVersion="8"/>
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
     <application
         android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name" android:name="MyApp">
+        android:label="@string/app_name"
+        android:name=".MyApp">
+        <uses-library android:name="com.google.android.maps" />
         <activity android:name=".WelcomeSceneLoadData" android:screenOrientation="portrait" android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".scene.WelcomeScene2" android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" android:screenOrientation="portrait" android:noHistory="true"></activity>
+        <activity android:name=".scene.WelcomeScene2" android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" android:screenOrientation="portrait">
+            <intent-filter>  
+	            <action android:name="android.intent.action.VIEW"></action>  
+	            <category android:name="android.intent.category.DEFAULT"></category>  
+	            <category android:name="android.intent.category.BROWSABLE"></category>  
+	            <data android:scheme="welcome2" android:host="twitter"></data>  
+        	</intent-filter>
+        </activity>
         <activity android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" android:name=".scene.CategoryScene" android:screenOrientation="portrait"></activity>
         <activity android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" android:name=".scene.SubCategoryScene" android:screenOrientation="portrait"></activity>
         <activity android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" android:name=".scene.ListScene" android:screenOrientation="portrait"></activity>
         <activity android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" android:name=".scene.PlaceGroupScene" android:screenOrientation="portrait"></activity>
-        <activity android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" android:name=".scene.DetailScene" android:screenOrientation="portrait"></activity>
-        <activity android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" android:name=".scene.View360Scene" android:screenOrientation="portrait"></activity>
-        <activity android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" android:name=".scene.HotDealScene" android:screenOrientation="portrait"></activity>
+        <activity android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" android:name=".scene.DetailScene" android:screenOrientation="portrait" android:windowSoftInputMode="adjustPan|adjustResize">
+            <intent-filter>  
+	            <action android:name="android.intent.action.VIEW"></action>  
+	            <category android:name="android.intent.category.DEFAULT"></category>  
+	            <category android:name="android.intent.category.BROWSABLE"></category>  
+	            <data android:scheme="detail" android:host="twitter"></data>  
+        	</intent-filter>
+        </activity>
+        <activity android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" android:name=".scene.View360Scene" android:screenOrientation="portrait" android:configChanges="keyboardHidden|orientation"></activity>
+        <activity android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" android:name=".scene.HotDealScene" android:screenOrientation="portrait">
+            <intent-filter>  
+	            <action android:name="android.intent.action.VIEW"></action>  
+	            <category android:name="android.intent.category.DEFAULT"></category>  
+	            <category android:name="android.intent.category.BROWSABLE"></category>  
+	            <data android:scheme="hotdeal" android:host="twitter"></data>  
+        	</intent-filter>
+        </activity>
         <activity android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" android:name=".scene.LocationScene" android:screenOrientation="portrait"></activity>
+        <activity android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" android:name=".scene.MapScene" android:screenOrientation="portrait"></activity>
+        <activity android:name=".scene.TwitterScene" android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen"></activity>
         
     </application>
 

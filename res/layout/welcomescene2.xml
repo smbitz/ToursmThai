@@ -46,7 +46,7 @@
                     </LinearLayout>
 
                     <ImageButton
-                        android:id="@+id/imageButton1"
+                        android:id="@+id/welcomSceneFacebookButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@null"
@@ -59,7 +59,7 @@
                     </LinearLayout>
 
                     <ImageButton
-                        android:id="@+id/imageButton2"
+                        android:id="@+id/welcomeSceneTwitterButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@null"

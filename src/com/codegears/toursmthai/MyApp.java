@@ -10,6 +10,9 @@ public class MyApp extends Application implements LoadListener {
 	
 	private static final String FONT_LIST_HEADER = "font/2006_iannnnnBKK_2.ttf";
 	private static final String FONT_LIBERATIONSANS = "font/LiberationSans_Regular.ttf";
+	public static final String FACEBOOK_APP_ID = "103734269759933";
+	public static final String TWITTER_CONSUMER_KEY = "6LoDDafvEKy9n3gDRr9HTw";
+	public static final String TWITTER_SECRET_KEY = "SajlYDIoibPbeQJLFPdDNgA3GQY1P9BVSzRuIEvc";
 	
 	private CategoryManager cManager;
 	private Config config;
